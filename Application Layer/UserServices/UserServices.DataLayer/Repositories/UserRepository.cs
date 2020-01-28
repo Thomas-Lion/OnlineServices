@@ -9,44 +9,56 @@ using RegistrationServices.DataLayer.Extensions;
 
 namespace RegistrationServices.DataLayer.Repositories
 {
-    //public class UserRepository : IRepository<UserTO, int>
     public class UserRepository : IRSUserRepository
     {
-        private readonly RegistrationServicesContext rsContext;
+        private readonly RegistrationContext userContext;
 
-        public UserRepository(RegistrationServicesContext Context)
+        public UserRepository(RegistrationContext userContext)
         {
-            rsContext = Context ?? throw new ArgumentNullException($"{nameof(Context)} in UserRepository");
+            this.userContext = userContext;
+            //userContext = Context ?? throw new ArgumentNullException($"{nameof(Context)} in UserRepository");
         }
 
         public UserTO Add(UserTO Entity)
         {
-            return rsContext.Add(Entity.ToEF()).Entity.ToTransfertObject();
+            if (Entity is null)
+                throw new ArgumentNullException(nameof(Entity));
+
+            var userEF = Entity.ToEF();
+
+            if (userContext.Users.FirstOrDefault(x => x.Id == Entity.Id) != null)
+                return Entity;
+            else
+                return userContext.Users.Add(userEF).Entity.ToTransfertObject();
         }
 
         public IEnumerable<UserTO> GetAll()
-        => rsContext.Users
+        => userContext.Users
             .AsNoTracking()
             .Include(x => x.UserSessions)
             .Select(x => x.ToTransfertObject())
             .ToList();
 
         public UserTO GetById(int Id)
-        => rsContext.Users
+        => userContext.Users
                 .AsNoTracking()
                 .Include(x => x.UserSessions)
                 .FirstOrDefault(x => x.Id == Id).ToTransfertObject();
 
         public IEnumerable<UserTO> GetByRole(UserRole role)
-        => rsContext.Users
+        => userContext.Users
                 .AsNoTracking()
+                .Include(x => x.Role)
+                .Include(x => x.Name)
+                .Include(x => x.Email)
+                .Include(x => x.Company)
                 .Where(x => x.Role == role)
                 .Select(x => x.ToTransfertObject())
                 .ToList();
 
         public IEnumerable<UserTO> GetBySession(SessionTO session)
         {
-            return rsContext.UserSessions.AsNoTracking()
+            return userContext.UserSessions
                 .Where(x => x.SessionId == session.Id)
                 .Select(x => x.User.ToTransfertObject())
                 .ToList();
@@ -74,12 +86,12 @@ namespace RegistrationServices.DataLayer.Repositories
         public bool Remove(int Id)
         {
             var returnValue = false;
-            var user = rsContext.Users.FirstOrDefault(x => x.Id == Id);
+            var user = userContext.Users.FirstOrDefault(x => x.Id == Id);
             if (user != default)
             {
                 try
                 {
-                    rsContext.Users.Remove(user);
+                    userContext.Users.Remove(user);
                     returnValue = true;
                 }
                 catch (Exception)
@@ -92,18 +104,23 @@ namespace RegistrationServices.DataLayer.Repositories
 
         public UserTO Update(UserTO Entity)
         {
-            if (!rsContext.Users.Any(x => x.Id == Entity.Id))
+            if (!userContext.Users.Any(x => x.Id == Entity.Id))
             {
                 throw new Exception($"Can't find user to update. UserRepository");
             }
-            var attachedUser = rsContext.Users.FirstOrDefault(x => x.Id == Entity.Id);
+            var attachedUser = userContext.Users
+                .Include(x => x.Role)
+                .Include(x => x.Name)
+                .Include(x => x.Email)
+                .Include(x => x.Company)
+                .FirstOrDefault(x => x.Id == Entity.Id);
 
             if (attachedUser != default)
             {
                 attachedUser.UpdateFromDetached(Entity.ToEF());
             }
 
-            return rsContext.Users.Update(attachedUser).Entity.ToTransfertObject();
+            return userContext.Users.Update(attachedUser).Entity.ToTransfertObject();
         }
     }
 }

@@ -44,7 +44,7 @@ namespace RegistrationServices.DataLayerTests
                 Id = 1,
                 Teacher = teacher,
                 Course = sql,
-                Dates = new List<SessionDayTO>()
+                SessionDays = new List<SessionDayTO>()
                 {
                    new SessionDayTO(){Id = 1, Date = new DateTime(2020, 2, 3), PresenceType = SessionPresenceType.MorningAfternoon},
                    new SessionDayTO(){Id = 2, Date = new DateTime(2020, 2, 4), PresenceType = SessionPresenceType.MorningAfternoon},
@@ -160,7 +160,7 @@ namespace RegistrationServices.DataLayerTests
                 Id = 1,
                 Teacher = teacher,
                 Course = sql,
-                Dates = new List<SessionDayTO>()
+                SessionDays = new List<SessionDayTO>()
                 {
                    new SessionDayTO(){Id = 1, Date = new DateTime(2020, 2, 3), PresenceType = SessionPresenceType.MorningAfternoon},
                    new SessionDayTO(){Id = 2, Date = new DateTime(2020, 2, 4), PresenceType = SessionPresenceType.MorningAfternoon},
@@ -276,7 +276,7 @@ namespace RegistrationServices.DataLayerTests
                 Id = 1,
                 Teacher = teacher,
                 Course = sql,
-                Dates = new List<SessionDayTO>()
+                SessionDays = new List<SessionDayTO>()
                 {
                    new SessionDayTO(){Id = 1, Date = new DateTime(2020, 2, 3), PresenceType = SessionPresenceType.MorningAfternoon},
                    new SessionDayTO(){Id = 2, Date = new DateTime(2020, 2, 4), PresenceType = SessionPresenceType.MorningAfternoon},
@@ -359,7 +359,7 @@ namespace RegistrationServices.DataLayerTests
         }
 
         [TestMethod]
-        public void Should_Contain_Two_Users()
+        public void Should_Contain_One_Attendee()
         {
             #region TOInitialization
 
@@ -392,7 +392,7 @@ namespace RegistrationServices.DataLayerTests
                 Id = 1,
                 Teacher = teacher,
                 Course = sql,
-                Dates = new List<SessionDayTO>()
+                SessionDays = new List<SessionDayTO>()
                 {
                    new SessionDayTO(){Id = 1, Date = new DateTime(2020, 2, 3), PresenceType = SessionPresenceType.MorningAfternoon},
                    new SessionDayTO(){Id = 2, Date = new DateTime(2020, 2, 4), PresenceType = SessionPresenceType.MorningAfternoon},
@@ -455,14 +455,6 @@ namespace RegistrationServices.DataLayerTests
                     UserId = studentEF.Id,
                     User = studentEF
                 },
-
-                new UserSessionEF
-                {
-                    SessionId = sessionEF.Id,
-                    Session = sessionEF,
-                    UserId = teacherEF.Id,
-                    User = teacherEF
-                }
             };
 
             sessionEF.UserSessions = userSessions;
