@@ -13,14 +13,15 @@ using System.Text;
 namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTests
 {
     [TestClass]
-    public class User_GetByRoleTests
+    public class User_UpdateTests
     {
         [TestMethod]
-        public void GetByRole_CorrespondingResult()
+        public void UpdateUser_WhenValid()
         {
+            //arrange
             var options = new DbContextOptionsBuilder<RegistrationContext>()
-                .UseInMemoryDatabase(databaseName: MethodBase.GetCurrentMethod().Name)
-                .Options;
+               .UseInMemoryDatabase(databaseName: MethodBase.GetCurrentMethod().Name)
+               .Options;
 
             using var RSCxt = new RegistrationContext(options);
             IRSUserRepository userRepository = new UserRepository(RSCxt);
@@ -44,21 +45,26 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTe
                 Role = UserRole.Attendee
             };
 
-            var useradded0 = userRepository.Add(Teacher);
-            var useradded1 = userRepository.Add(Jack);
-            var useradded2 = userRepository.Add(John);
+            var userAdded0 = userRepository.Add(Teacher);
+            var userAdded1 = userRepository.Add(Jack);
+            var userAdded2 = userRepository.Add(John);
 
             RSCxt.SaveChanges();
-
-            Assert.AreEqual(2, userRepository.GetByRole(UserRole.Attendee).Count());
+            //act
+            userAdded1.Name = "You lost the game";
+            userRepository.Update(userAdded1);
+            RSCxt.SaveChanges();
+            //assert
+            Assert.AreEqual(3, userRepository.GetAll().Count());
+            Assert.AreEqual("You lost the game", userRepository.GetById(userAdded1.Id).Name);
         }
-
         [TestMethod]
-        public void GetByRole_NoResult()
+        public void UpdateUser_ShouldThrowExceptionWhenInvalid()
         {
+            //arrange
             var options = new DbContextOptionsBuilder<RegistrationContext>()
-                .UseInMemoryDatabase(databaseName: MethodBase.GetCurrentMethod().Name)
-                .Options;
+               .UseInMemoryDatabase(databaseName: MethodBase.GetCurrentMethod().Name)
+               .Options;
 
             using var RSCxt = new RegistrationContext(options);
             IRSUserRepository userRepository = new UserRepository(RSCxt);
@@ -82,13 +88,13 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTe
                 Role = UserRole.Attendee
             };
 
-            var useradded0 = userRepository.Add(Teacher);
-            var useradded1 = userRepository.Add(Jack);
-            var useradded2 = userRepository.Add(John);
+            var userAdded0 = userRepository.Add(Teacher);
+            var userAdded1 = userRepository.Add(Jack);
 
             RSCxt.SaveChanges();
-
-            Assert.AreEqual(0, userRepository.GetByRole(UserRole.Assistant).Count());
+            //act & assert
+            Assert.AreEqual(2, userRepository.GetAll().Count());
+            Assert.ThrowsException<Exception>(()=> userRepository.Update(John));
         }
     }
 }
