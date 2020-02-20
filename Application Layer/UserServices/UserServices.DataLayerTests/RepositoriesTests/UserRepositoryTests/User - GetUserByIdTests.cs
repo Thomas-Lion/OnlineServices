@@ -44,14 +44,14 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTe
                 Role = UserRole.Attendee
             };
             //act
-            var userAdded0 = userRepository.Add(Teacher);
-            var userAdded1 = userRepository.Add(Jack);
-            var userAdded2 = userRepository.Add(John);
+            var AddedUser0 = userRepository.Add(Teacher);
+            var AddedUser1 = userRepository.Add(Jack);
+            var AddedUser2 = userRepository.Add(John);
 
             RSCxt.SaveChanges();
             //assert
-            Assert.AreEqual("Jack Jack", userRepository.GetById(userAdded1.Id).Name);
-            Assert.AreEqual("Jack@Kcaj.Niet", userRepository.GetById(userAdded1.Id).Email);
+            Assert.AreEqual("Jack Jack", userRepository.GetById(AddedUser1.Id).Name);
+            Assert.AreEqual("Jack@Kcaj.Niet", userRepository.GetById(AddedUser1.Id).Email);
         }
         [TestMethod]
         public void GetById_ThrowException()

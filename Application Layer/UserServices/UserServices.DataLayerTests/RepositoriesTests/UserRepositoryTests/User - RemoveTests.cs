@@ -44,13 +44,13 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTe
                 Email = "John@JHON.Nee",
                 Role = UserRole.Attendee
             };
-            var userAdded0 = userRepository.Add(Teacher);
-            var userAdded1 = userRepository.Add(Jack);
-            var userAdded2 = userRepository.Add(John);
+            var AddedUser0 = userRepository.Add(Teacher);
+            var AddedUser1 = userRepository.Add(Jack);
+            var AddedUser2 = userRepository.Add(John);
 
             RSCxt.SaveChanges();
             //act
-            userRepository.Remove(userAdded0.Id);
+            userRepository.Remove(AddedUser0.Id);
             RSCxt.SaveChanges();
             //assert
             Assert.AreEqual(2, userRepository.GetAll().Count());

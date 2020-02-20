@@ -13,17 +13,20 @@ using System.Text;
 namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTests
 {
     [TestClass]
-    public class User_GetUserByRoleTests
+    public class User_GetUserBySessionTests
     {
         [TestMethod]
-        public void GetUserByRole_CorrespondingResult()
+        public void GetUserBySession_WhenValid()
         {
+            //arrange
             var options = new DbContextOptionsBuilder<RegistrationContext>()
-                .UseInMemoryDatabase(databaseName: MethodBase.GetCurrentMethod().Name)
-                .Options;
+               .UseInMemoryDatabase(databaseName: MethodBase.GetCurrentMethod().Name)
+               .Options;
 
             using var RSCxt = new RegistrationContext(options);
             IRSUserRepository userRepository = new UserRepository(RSCxt);
+            IRSCourseRepository courseRepository = new CourseRepository(RSCxt);
+            IRSSessionRepository sessionRepository = new SessionRepository(RSCxt);
 
             var Teacher = new UserTO()
             {
@@ -47,48 +50,32 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTe
             var AddedUser0 = userRepository.Add(Teacher);
             var AddedUser1 = userRepository.Add(Jack);
             var AddedUser2 = userRepository.Add(John);
-
             RSCxt.SaveChanges();
 
-            Assert.AreEqual(2, userRepository.GetUserByRole(UserRole.Attendee).Count());
-        }
-
-        [TestMethod]
-        public void GetUserByRole_NoResult()
-        {
-            var options = new DbContextOptionsBuilder<RegistrationContext>()
-                .UseInMemoryDatabase(databaseName: MethodBase.GetCurrentMethod().Name)
-                .Options;
-
-            using var RSCxt = new RegistrationContext(options);
-            IRSUserRepository userRepository = new UserRepository(RSCxt);
-
-            var Teacher = new UserTO()
+            var SQLCourse = new CourseTO()
             {
-                Name = "Max",
-                Email = "Padawan@HighGround.OW",
-                Role = UserRole.Teacher
-            };
-            var Jack = new UserTO()
-            {
-                Name = "Jack Jack",
-                Email = "Jack@Kcaj.Niet",
-                Role = UserRole.Attendee
-            };
-            var John = new UserTO()
-            {
-                Name = "John",
-                Email = "John@JHON.Nee",
-                Role = UserRole.Attendee
+                Name = "SQL"
             };
 
-            var AddedUser0 = userRepository.Add(Teacher);
-            var AddedUser1 = userRepository.Add(Jack);
-            var AddedUser2 = userRepository.Add(John);
-
+            var AddedCourse = courseRepository.Add(SQLCourse);
             RSCxt.SaveChanges();
 
-            Assert.AreEqual(0, userRepository.GetUserByRole(UserRole.Assistant).Count());
+            var SQLSession = new SessionTO()
+            {
+                Attendees = new List<UserTO>()
+                {
+                    AddedUser1,AddedUser2
+                },
+                Course = AddedCourse,
+                Teacher = AddedUser0,
+            };
+
+            var AddedSession = sessionRepository.Add(SQLSession);
+            RSCxt.SaveChanges();
+            //act
+
+            //assert
+            Assert.AreEqual(3, userRepository.GetAll().Count());
         }
     }
 }

@@ -45,18 +45,18 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTe
                 Role = UserRole.Attendee
             };
 
-            var userAdded0 = userRepository.Add(Teacher);
-            var userAdded1 = userRepository.Add(Jack);
-            var userAdded2 = userRepository.Add(John);
+            var AddedUser0 = userRepository.Add(Teacher);
+            var AddedUser1 = userRepository.Add(Jack);
+            var AddedUser2 = userRepository.Add(John);
 
             RSCxt.SaveChanges();
             //act
-            userAdded1.Name = "You lost the game";
-            userRepository.Update(userAdded1);
+            AddedUser1.Name = "You lost the game";
+            userRepository.Update(AddedUser1);
             RSCxt.SaveChanges();
             //assert
             Assert.AreEqual(3, userRepository.GetAll().Count());
-            Assert.AreEqual("You lost the game", userRepository.GetById(userAdded1.Id).Name);
+            Assert.AreEqual("You lost the game", userRepository.GetById(AddedUser1.Id).Name);
         }
         [TestMethod]
         public void UpdateUser_ShouldThrowExceptionWhenInvalid()
@@ -88,8 +88,8 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTe
                 Role = UserRole.Attendee
             };
 
-            var userAdded0 = userRepository.Add(Teacher);
-            var userAdded1 = userRepository.Add(Jack);
+            var AddedUser0 = userRepository.Add(Teacher);
+            var AddedUser1 = userRepository.Add(Jack);
 
             RSCxt.SaveChanges();
             //act & assert

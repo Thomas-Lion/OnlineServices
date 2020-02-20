@@ -43,30 +43,26 @@ namespace RegistrationServices.DataLayer.Repositories
                 .FirstOrDefault(x => x.Id == Id)
                 .ToTransfertObject();
 
-        public IEnumerable<UserTO> GetByRole(UserRole role)
+        public IEnumerable<UserTO> GetUserByRole(UserRole role)
         => registrationContext.Users
                 .AsNoTracking()
                 .Where(x => x.Role == role)
                 .Select(x => x.ToTransfertObject())
                 .ToList();
 
-        public IEnumerable<UserTO> GetBySession(SessionTO session)
+        public IEnumerable<UserTO> GetUserBySession(SessionTO session)
         {
             return registrationContext.UserSessions
+                .AsNoTracking()
                 .Where(x => x.SessionId == session.Id)
                 .Select(x => x.User.ToTransfertObject())
                 .ToList();
         }
-
-        public IEnumerable<SessionTO> GetSessions(UserTO user)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public bool IsInSession(UserTO user, SessionTO session)
         {
             var returnValue = false;
-            var sessionList = GetBySession(session);
+            var sessionList = GetUserBySession(session);
             if (sessionList.Contains(user))
             {
                 returnValue = true;

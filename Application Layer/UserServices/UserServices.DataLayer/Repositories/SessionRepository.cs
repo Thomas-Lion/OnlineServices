@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineServices.Common.RegistrationServices.Interfaces;
 using OnlineServices.Common.RegistrationServices.TransferObject;
+using RegistrationServices.DataLayer.Entities;
 using RegistrationServices.DataLayer.Extensions;
 using System;
 using System.Collections.Generic;
@@ -29,9 +30,32 @@ namespace RegistrationServices.DataLayer.Repositories
             }
 
             var sessionEF = Entity.ToEF();
-            sessionEF.Course = registrationContext.Courses.First(x => x.Id == Entity.Course.Id);
+            sessionEF.Course = registrationContext.Courses.FirstOrDefault(x => x.Id == Entity.Course.Id);
 
-            registrationContext.Sessions.Add(sessionEF);
+            // registrationContext.Users.Select(u=> u.Id == Entity.Attendees)
+
+
+            //foreach (var user in Entity.Attendees)
+            //{
+            //    if (user.Id != 0)
+            //    {
+            //        var existingattendee = registrationContext.Users.First(u => u.Id == user.Id);
+            //        sessionEF.UserSessions.Select()
+            //    }
+            //    else
+            //    {
+            //        registrationContext.Users.Add(user.ToEF());
+            //    }
+
+            //}
+
+            sessionEF.UserSessions = new List<UserSessionEF>() ;
+            var session = registrationContext.Sessions.Add(sessionEF).Entity;
+            
+            //TODO 1) userserssion.sessionid= nouvelle sessionid
+            //TODO 2) registrationContext.UserSessions.Add
+
+
             return sessionEF.ToTransfertObject();
             // => registrationContext.Add(Entity.ToEF()).Entity.ToTransfertObject();
         }
