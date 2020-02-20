@@ -13,14 +13,15 @@ using System.Text;
 namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTests
 {
     [TestClass]
-    public class User_GetByRoleTests
+    public class User_RemoveTests
     {
         [TestMethod]
-        public void GetByRole_CorrespondingResult()
+        public void RemoveUser_WhenValid()
         {
+            //arrange
             var options = new DbContextOptionsBuilder<RegistrationContext>()
-                .UseInMemoryDatabase(databaseName: MethodBase.GetCurrentMethod().Name)
-                .Options;
+               .UseInMemoryDatabase(databaseName: MethodBase.GetCurrentMethod().Name)
+               .Options;
 
             using var RSCxt = new RegistrationContext(options);
             IRSUserRepository userRepository = new UserRepository(RSCxt);
@@ -43,52 +44,57 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTe
                 Email = "John@JHON.Nee",
                 Role = UserRole.Attendee
             };
-
-            var useradded0 = userRepository.Add(Teacher);
-            var useradded1 = userRepository.Add(Jack);
-            var useradded2 = userRepository.Add(John);
+            var userAdded0 = userRepository.Add(Teacher);
+            var userAdded1 = userRepository.Add(Jack);
+            var userAdded2 = userRepository.Add(John);
 
             RSCxt.SaveChanges();
-
-            Assert.AreEqual(2, userRepository.GetByRole(UserRole.Attendee).Count());
+            //act
+            userRepository.Remove(userAdded0.Id);
+            RSCxt.SaveChanges();
+            //assert
+            Assert.AreEqual(2, userRepository.GetAll().Count());
+            Assert.IsFalse(userRepository.GetAll().Any(x => x.Id == 1));
         }
-
         [TestMethod]
-        public void GetByRole_NoResult()
+        public void RemoveUser_WhenInvalidId()
         {
+            //arrange
             var options = new DbContextOptionsBuilder<RegistrationContext>()
-                .UseInMemoryDatabase(databaseName: MethodBase.GetCurrentMethod().Name)
-                .Options;
+               .UseInMemoryDatabase(databaseName: MethodBase.GetCurrentMethod().Name)
+               .Options;
 
             using var RSCxt = new RegistrationContext(options);
             IRSUserRepository userRepository = new UserRepository(RSCxt);
-
-            var Teacher = new UserTO()
-            {
-                Name = "Max",
-                Email = "Padawan@HighGround.OW",
-                Role = UserRole.Teacher
-            };
-            var Jack = new UserTO()
-            {
-                Name = "Jack Jack",
-                Email = "Jack@Kcaj.Niet",
-                Role = UserRole.Attendee
-            };
             var John = new UserTO()
             {
                 Name = "John",
                 Email = "John@JHON.Nee",
                 Role = UserRole.Attendee
             };
-
-            var useradded0 = userRepository.Add(Teacher);
-            var useradded1 = userRepository.Add(Jack);
-            var useradded2 = userRepository.Add(John);
-
+            userRepository.Add(John);
             RSCxt.SaveChanges();
+            Assert.ThrowsException<ArgumentNullException>(() => userRepository.Remove(15));
 
-            Assert.AreEqual(0, userRepository.GetByRole(UserRole.Assistant).Count());
+        }
+        [TestMethod]
+        public void RemoveUser_WhenInvalidUser()
+        {
+            //arrange
+            var options = new DbContextOptionsBuilder<RegistrationContext>()
+               .UseInMemoryDatabase(databaseName: MethodBase.GetCurrentMethod().Name)
+               .Options;
+
+            using var RSCxt = new RegistrationContext(options);
+            IRSUserRepository userRepository = new UserRepository(RSCxt);
+            var John = new UserTO()
+            {
+                Name = "John",
+                Email = "John@JHON.Nee",
+                Role = UserRole.Attendee
+            };
+            Assert.ThrowsException<ArgumentNullException>(() => userRepository.Remove(John));
+
         }
     }
 }
