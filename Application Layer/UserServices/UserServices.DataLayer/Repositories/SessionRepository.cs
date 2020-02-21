@@ -102,15 +102,11 @@ namespace RegistrationServices.DataLayer.Repositories
             if (user.Role == UserRole.Assistant)
                 throw new ArgumentException("Assistant can not subscribe to sessions");
 
-            var prout = GetAll();
-
             return GetAll().Where(x => (x.Attendees.Contains(user))
             || (x.Teacher.Id == user.Id));
         }
 
         public IEnumerable<SessionTO> GetSessionsByDate(DateTime date)
-        {
-            throw new NotImplementedException();
-        }
+            => GetAll().Where(x => x.SessionDays.Any(y => y.Date == date));
     }
 }
