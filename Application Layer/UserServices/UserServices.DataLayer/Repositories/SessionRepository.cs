@@ -51,10 +51,31 @@ namespace RegistrationServices.DataLayer.Repositories
 
             sessionEF.UserSessions = new List<UserSessionEF>() ;
             var session = registrationContext.Sessions.Add(sessionEF).Entity;
-            
+
             //TODO 1) userserssion.sessionid= nouvelle sessionid
             //TODO 2) registrationContext.UserSessions.Add
+            foreach (var user in Entity.Attendees)
+            {
+                var userSession = new UserSessionEF()
+                {
+                    SessionId = session.Id,
+                    Session = session,
+                    UserId = user.Id,
+                    User = registrationContext.Users.First(x=>x.Id == user.Id)
+                };
+                registrationContext.UserSessions.Add(userSession);
+            }
 
+            var teacherEF = new UserSessionEF()
+            {
+                SessionId = session.Id,
+                Session = session,
+                UserId = Entity.Teacher.Id,
+                User = registrationContext.Users.First(x => x.Id == Entity.Teacher.Id)
+            };
+
+            registrationContext.UserSessions.Add(teacherEF);
+            
 
             return sessionEF.ToTransfertObject();
             // => registrationContext.Add(Entity.ToEF()).Entity.ToTransfertObject();
@@ -78,7 +99,7 @@ namespace RegistrationServices.DataLayer.Repositories
 
             return registrationContext.Sessions
             .AsNoTracking()
-            .Include(x => x.UserSessions)
+            .Include(x => x.UserSessions).ThenInclude(x =>x.User)
             .Include(x => x.Dates)
             .FirstOrDefault(x => x.Id == Id).ToTransfertObject();
         }
