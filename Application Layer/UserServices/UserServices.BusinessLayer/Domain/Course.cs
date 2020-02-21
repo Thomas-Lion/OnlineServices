@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using OnlineServices.Common.Extensions;
 
-
 namespace RegistrationServices.BusinessLayer
 {
     public class Course
@@ -17,5 +16,7 @@ namespace RegistrationServices.BusinessLayer
 
             return true;
         }
+
+        public bool IsArchived { get; set; }
     }
 }

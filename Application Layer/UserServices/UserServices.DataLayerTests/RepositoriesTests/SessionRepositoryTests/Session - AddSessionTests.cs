@@ -82,5 +82,37 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                 Assert.AreEqual(1, sessionRepository.GetAll().Count());
             }
         }
+
+        [TestMethod]
+        public void Should_Insert_Session_Without_Teacher_And_Users()
+        {
+            var options = new DbContextOptionsBuilder<RegistrationContext>()
+               .UseInMemoryDatabase(databaseName: MethodBase.GetCurrentMethod().Name)
+               .Options;
+
+            using (var context = new RegistrationContext(options))
+            {
+                IRSSessionRepository sessionRepository = new SessionRepository(context);
+                IRSCourseRepository courseRepository = new CourseRepository(context);
+
+                var hugeCourse = new CourseTO()
+                {
+                    Name = "Huge COurse"
+                };
+
+                var addedCourse = courseRepository.Add(hugeCourse);
+
+                var hugeSession = new SessionTO()
+                {
+                    Course = addedCourse
+                };
+
+                var addedSession = sessionRepository.Add(hugeSession);
+
+                context.SaveChanges();
+
+                Assert.AreEqual(1, sessionRepository.GetAll().Count());
+            }
+        }
     }
 }
