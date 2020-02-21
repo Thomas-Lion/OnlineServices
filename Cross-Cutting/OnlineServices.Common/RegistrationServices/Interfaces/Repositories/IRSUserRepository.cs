@@ -7,9 +7,9 @@ namespace OnlineServices.Common.RegistrationServices.Interfaces
 {
     public interface IRSUserRepository : IRepository<UserTO, int>
     {
-        IEnumerable<UserTO> GetByRole(UserRole role);
+        IEnumerable<UserTO> GetUserByRole(UserRole role);
 
-        IEnumerable<UserTO> GetBySession(SessionTO session);
+        IEnumerable<UserTO> GetUserBySession(SessionTO session);
 
         bool IsInSession(UserTO user, SessionTO session);
     }

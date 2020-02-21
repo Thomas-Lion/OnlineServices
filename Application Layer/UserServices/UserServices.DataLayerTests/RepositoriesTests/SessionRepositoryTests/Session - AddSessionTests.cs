@@ -62,22 +62,22 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                     //Id = 1,
                     Attendees = new List<UserTO>()
                 {
-                    Michou
+                    AddedAttendee
                 },
-
                     Course = AddedCourse,
-                    Teacher = Teacher,
+                    Teacher = AddedTeacher,
                 };
 
                 //By Amb
-                var mySession = new SessionTO()
-                {
-                    Attendees = new List<UserTO> { new UserTO { Name = "AAA", Email = "a@gmail.com", Role = UserRole.Attendee, IsActivated = false } },
-                };
+                //var mySession = new SessionTO()
+                //{
+                //    Attendees = new List<UserTO> { new UserTO { Name = "AAA", Email = "a@gmail.com", Role = UserRole.Attendee, IsActivated = false } },
+                //};
                 //By Amb
 
                 var AddedSession = sessionRepository.Add(SQLSession);
                 context.SaveChanges();
+                Assert.AreEqual(2, userRepository.GetAll().Count());
 
                 Assert.AreEqual(1, sessionRepository.GetAll().Count());
             }
