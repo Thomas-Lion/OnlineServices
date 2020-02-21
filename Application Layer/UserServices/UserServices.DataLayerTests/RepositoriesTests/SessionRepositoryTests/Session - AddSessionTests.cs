@@ -119,7 +119,8 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                 var SQLCourse = new CourseTO()
                 {
                     //Id = 28,
-                    Name = "SQL"
+                    Name = "SQL",
+                    IsArchived = true
                 };
 
                 var AddedCourse = courseRepository.Add(SQLCourse);
