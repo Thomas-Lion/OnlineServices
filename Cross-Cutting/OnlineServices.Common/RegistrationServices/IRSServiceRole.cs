@@ -5,10 +5,9 @@ using System.Text;
 
 namespace OnlineServices.Common.RegistrationServices
 {
+    //Todo to be checked
     public interface IRSServiceRole
     {
-        bool IsUserInSession(int userId, int sessionId);
-        List<UserTO> GetSessionAttendes(int sessionId);
-        SessionTO GetSession(int sessionId);
+
     }
 }

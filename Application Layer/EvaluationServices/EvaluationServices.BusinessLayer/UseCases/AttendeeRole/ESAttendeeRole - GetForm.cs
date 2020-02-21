@@ -13,7 +13,7 @@ namespace EvaluationServices.BusinessLayer.UseCases
         public FormTO2 GetActiveForm(int sessionId, int attendeeId)
         {
             //Etape Tester
-            var session = iRSServiceRole.GetSession(sessionId);
+            var session = iRSServiceRole.GetSessionById(sessionId);
 
             //1. User is in session
             if (!session.Attendees.Any(x => x.Id == attendeeId))

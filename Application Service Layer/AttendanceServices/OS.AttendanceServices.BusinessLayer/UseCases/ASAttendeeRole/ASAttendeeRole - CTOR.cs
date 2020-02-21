@@ -9,9 +9,9 @@ namespace OS.AttendanceServices.BusinessLayer.UseCases
     public partial class ASAttendeeRole
     {
         private readonly ICheckInRepository checkInRepository;
-        private readonly IRSServiceRole userServices;
+        private readonly IRSAssistantRole userServices;
 
-        public ASAttendeeRole(ICheckInRepository checkInRepository, IRSServiceRole userServices)
+        public ASAttendeeRole(ICheckInRepository checkInRepository, IRSAssistantRole userServices)
         {
             this.checkInRepository = checkInRepository ?? throw new ArgumentNullException(nameof(checkInRepository));
             this.userServices = userServices;
