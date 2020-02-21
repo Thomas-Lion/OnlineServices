@@ -12,17 +12,17 @@ namespace OnlineServices.Common.RegistrationServices
         bool RemoveUser(UserTO user);
         List<UserTO> GetUsers();
         UserTO GetUserById(int id);
+
         bool AddSession(SessionTO session);
         bool UpdateSession(SessionTO session);
         bool RemoveSession(SessionTO session);
         List<SessionTO> GetSessions();
         SessionTO GetSessionById(int id);
+
         bool AddCourse(CourseTO course);
         bool UpdateCourse(CourseTO course);
         bool RemoveCourse(CourseTO course);
         List<CourseTO> GetCourses();
         CourseTO GetCourseById(int id);
     }
-
-    
 }
