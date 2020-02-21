@@ -7,8 +7,9 @@ namespace OnlineServices.Common.RegistrationServices
 {
     public interface IRSAttendeeRole
     {
-        public SessionTO GetTodaySession(int userId);
+        public SessionTO GetSessionByUserByDate(int userId, DateTime date);
 
         public int GetIdByMail(string mail);
+        public IEnumerable<SessionTO> GetSessionsByDate(DateTime date);
     }
 }
