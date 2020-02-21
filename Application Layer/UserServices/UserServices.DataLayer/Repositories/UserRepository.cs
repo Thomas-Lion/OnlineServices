@@ -50,19 +50,21 @@ namespace RegistrationServices.DataLayer.Repositories
                 .Select(x => x.ToTransfertObject())
                 .ToList();
 
-        public IEnumerable<UserTO> GetUserBySession(SessionTO session)
+        public IEnumerable<UserTO> GetUsersBySession(SessionTO session)
         {
+            if ((session.Attendees == null || session.Attendees.Count() == 0) && session.Teacher == null)
+                throw new NullReferenceException();
             return registrationContext.UserSessions
                 .AsNoTracking()
                 .Where(x => x.SessionId == session.Id)
                 .Select(x => x.User.ToTransfertObject())
                 .ToList();
         }
-        
+
         public bool IsInSession(UserTO user, SessionTO session)
         {
             var returnValue = false;
-            var sessionList = GetUserBySession(session);
+            var sessionList = GetUsersBySession(session);
             if (sessionList.Contains(user))
             {
                 returnValue = true;
@@ -102,7 +104,6 @@ namespace RegistrationServices.DataLayer.Repositories
             }
             catch (Exception Ex)
             {
-
                 throw;
             }
         }
