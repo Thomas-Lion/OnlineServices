@@ -8,10 +8,11 @@ using System.Linq;
 using OnlineServices.Common.RegistrationServices;
 using OnlineServices.Common.RegistrationServices.TransferObject;
 using OnlineServices.Common.Exceptions;
+using RegistrationServices.BusinessLayer.UseCase.Attendee;
 
 namespace RegistrationServices.BusinessLayer.UseCase.Assistant
 {
-    public partial class RSAssistantRole : IRSAssistantRole
+    public partial class RSAssistantRole : RSAttendeeRole, IRSAssistantRole
     {
         private readonly IRSUnitOfWork iRSUnitOfWork;
 
