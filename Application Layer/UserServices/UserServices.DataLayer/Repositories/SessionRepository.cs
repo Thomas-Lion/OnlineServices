@@ -34,7 +34,6 @@ namespace RegistrationServices.DataLayer.Repositories
 
             // registrationContext.Users.Select(u=> u.Id == Entity.Attendees)
 
-
             //foreach (var user in Entity.Attendees)
             //{
             //    if (user.Id != 0)
@@ -49,7 +48,7 @@ namespace RegistrationServices.DataLayer.Repositories
 
             //}
 
-            sessionEF.UserSessions = new List<UserSessionEF>() ;
+            sessionEF.UserSessions = new List<UserSessionEF>();
             var session = registrationContext.Sessions.Add(sessionEF).Entity;
 
             //TODO 1) userserssion.sessionid= nouvelle sessionid
@@ -61,7 +60,7 @@ namespace RegistrationServices.DataLayer.Repositories
                     SessionId = session.Id,
                     Session = session,
                     UserId = user.Id,
-                    User = registrationContext.Users.First(x=>x.Id == user.Id)
+                    User = registrationContext.Users.First(x => x.Id == user.Id)
                 };
                 registrationContext.UserSessions.Add(userSession);
             }
@@ -75,7 +74,6 @@ namespace RegistrationServices.DataLayer.Repositories
             };
 
             registrationContext.UserSessions.Add(teacherEF);
-            
 
             return sessionEF.ToTransfertObject();
             // => registrationContext.Add(Entity.ToEF()).Entity.ToTransfertObject();
@@ -99,7 +97,7 @@ namespace RegistrationServices.DataLayer.Repositories
 
             return registrationContext.Sessions
             .AsNoTracking()
-            .Include(x => x.UserSessions).ThenInclude(x =>x.User)
+            .Include(x => x.UserSessions).ThenInclude(x => x.User)
             .Include(x => x.Dates)
             .FirstOrDefault(x => x.Id == Id).ToTransfertObject();
         }
@@ -146,7 +144,7 @@ namespace RegistrationServices.DataLayer.Repositories
             if (user.Role == UserRole.Assistant)
                 throw new ArgumentException("Assistant can not subscribe to sessions");
 
-            return GetAll().Where(x => (x.Attendees.Contains(user))
+            return GetAll().Where(x => (x.Attendees.Any(y => y.Id == user.Id))
             || (x.Teacher.Id == user.Id));
         }
 

@@ -15,7 +15,6 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
     [TestClass]
     public class Session_GetByStudentTests
     {
-        [Ignore]
         [TestMethod]
         public void Should_Return_1_Session_When_User_Is_Student()
         {
@@ -75,28 +74,29 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                 {
                     Attendees = new List<UserTO>()
                     {
-                        Michou
+                        AddedAttendee
                     },
 
                     Course = AddedCourse,
-                    Teacher = Teacher,
+                    Teacher = AddedTeacher,
                 };
 
                 var MVCSession = new SessionTO()
                 {
                     Attendees = new List<UserTO>()
                     {
-                        Isabelle
+                        AddedAttendee2
                     },
 
                     Course = AddedCourse,
-                    Teacher = Teacher,
+                    Teacher = AddedTeacher,
                 };
 
                 var AddedSession = sessionRepository.Add(SQLSession);
+                var AddedSession2 = sessionRepository.Add(MVCSession);
                 context.SaveChanges();
 
-                Assert.AreEqual(1, sessionRepository.GetByUser(AddedAttendee).Count());
+                Assert.AreEqual(1, sessionRepository.GetByUser(AddedAttendee2).Count());
             }
         }
 
@@ -159,25 +159,26 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                 {
                     Attendees = new List<UserTO>()
                     {
-                        Michou
+                        AddedAttendee
                     },
 
                     Course = AddedCourse,
-                    Teacher = Teacher,
+                    Teacher = AddedTeacher,
                 };
 
                 var MVCSession = new SessionTO()
                 {
                     Attendees = new List<UserTO>()
                     {
-                        Isabelle
+                        AddedAttendee2
                     },
 
                     Course = AddedCourse,
-                    Teacher = Teacher,
+                    Teacher = AddedTeacher,
                 };
 
                 var AddedSession = sessionRepository.Add(SQLSession);
+                var AddedSession2 = sessionRepository.Add(MVCSession);
                 context.SaveChanges();
 
                 Assert.AreEqual(2, sessionRepository.GetByUser(AddedTeacher).Count());
@@ -240,17 +241,17 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                     //Id = 1,
                     Attendees = new List<UserTO>()
                 {
-                    Michou, Isabelle
+                    AddedAttendee, AddedAttendee2
                 },
 
                     Course = AddedCourse,
-                    Teacher = Teacher,
+                    Teacher = AddedTeacher,
                 };
 
                 var AddedSession = sessionRepository.Add(SQLSession);
                 context.SaveChanges();
 
-                Assert.ThrowsException<ArgumentException>(() => sessionRepository.GetByUser(Isabelle).Count());
+                Assert.ThrowsException<ArgumentException>(() => sessionRepository.GetByUser(AddedAttendee2).Count());
             }
         }
     }

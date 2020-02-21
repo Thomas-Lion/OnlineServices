@@ -75,11 +75,11 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                 {
                     Attendees = new List<UserTO>()
                     {
-                        Michou
+                        AddedAttendee
                     },
 
                     Course = AddedCourse,
-                    Teacher = Teacher,
+                    Teacher = AddedTeacher,
 
                     SessionDays = new List<SessionDayTO>()
                     {
@@ -101,11 +101,11 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                 {
                     Attendees = new List<UserTO>()
                     {
-                        Isabelle
+                        AddedAttendee2
                     },
 
                     Course = AddedCourse,
-                    Teacher = Teacher,
+                    Teacher = AddedTeacher,
 
                     SessionDays = new List<SessionDayTO>()
                     {
@@ -189,11 +189,11 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                 {
                     Attendees = new List<UserTO>()
                     {
-                        Michou
+                        AddedAttendee
                     },
 
                     Course = AddedCourse,
-                    Teacher = Teacher,
+                    Teacher = AddedTeacher,
 
                     SessionDays = new List<SessionDayTO>()
                     {
@@ -215,11 +215,11 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                 {
                     Attendees = new List<UserTO>()
                     {
-                        Isabelle
+                        AddedAttendee2
                     },
 
                     Course = AddedCourse,
-                    Teacher = Teacher,
+                    Teacher = AddedTeacher,
 
                     SessionDays = new List<SessionDayTO>()
                     {
@@ -304,11 +304,11 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                 {
                     Attendees = new List<UserTO>()
                     {
-                        Michou
+                        AddedAttendee
                     },
 
                     Course = AddedCourse,
-                    Teacher = Teacher,
+                    Teacher = AddedTeacher,
 
                     SessionDays = new List<SessionDayTO>()
                     {
@@ -330,11 +330,11 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                 {
                     Attendees = new List<UserTO>()
                     {
-                        Isabelle
+                        AddedAttendee2
                     },
 
                     Course = AddedCourse,
-                    Teacher = Teacher,
+                    Teacher = AddedTeacher,
 
                     SessionDays = new List<SessionDayTO>()
                     {
