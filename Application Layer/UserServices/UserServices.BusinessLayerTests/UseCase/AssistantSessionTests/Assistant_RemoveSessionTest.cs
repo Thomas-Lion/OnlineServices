@@ -7,8 +7,9 @@ using Moq;
 using RegistrationServices.BusinessLayer;
 using OnlineServices.Common.RegistrationServices.Interfaces;
 using OnlineServices.Common.RegistrationServices.TransferObject;
+using RegistrationServices.BusinessLayer.UseCase.Assistant;
 
-namespace RegistrationServices.BusinessLayerTests.UseCase
+namespace RegistrationServices.BusinessLayerTests.UseCase.AssistantSessionTests
 {
     [TestClass]
     public class Assistant_RemoveSessionTest
@@ -23,7 +24,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
         public void RemoveSession_ThrowException_WhenSessionIsNull()
         {
             //ARRANGE
-            var assistant = new AssistantRole(MockUofW.Object);
+            var assistant = new RSAssistantRole(MockUofW.Object);
 
             //ASSERT
             Assert.ThrowsException<ArgumentNullException>(() => assistant.RemoveSession(null));
@@ -34,7 +35,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
         {
             //ARRANGE
             var sessionIdZero = new SessionTO { Id = 0,  Course = null };
-            var assistant = new AssistantRole(MockUofW.Object);
+            var assistant = new RSAssistantRole(MockUofW.Object);
 
             //ASSERT
             Assert.ThrowsException<Exception>(() => assistant.RemoveSession(sessionIdZero));
@@ -47,7 +48,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
             MockSessionRepository.Setup(x => x.Remove(It.IsAny<SessionTO>()));
             MockUofW.Setup(x => x.SessionRepository).Returns(MockSessionRepository.Object);
 
-            var assistant = new AssistantRole(MockUofW.Object);
+            var assistant = new RSAssistantRole(MockUofW.Object);
             var sessionToRemove = new SessionTO { Id = 1, Course = course, Teacher = teacher };
 
             //ASSERT
@@ -61,7 +62,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
             MockSessionRepository.Setup( x => x.Remove(It.IsAny<SessionTO>()));
             MockUofW.Setup(x => x.SessionRepository).Returns(MockSessionRepository.Object);
 
-            var ass = new AssistantRole(MockUofW.Object);
+            var ass = new RSAssistantRole(MockUofW.Object);
             var sessionToRemoveOnce = new SessionTO { Id = 1, Course = course, Teacher = teacher };
 
             //ACT

@@ -7,8 +7,9 @@ using Moq;
 using RegistrationServices.BusinessLayer;
 using OnlineServices.Common.RegistrationServices.Interfaces;
 using OnlineServices.Common.RegistrationServices.TransferObject;
+using RegistrationServices.BusinessLayer.UseCase.Assistant;
 
-namespace RegistrationServices.BusinessLayerTests.UseCase
+namespace RegistrationServices.BusinessLayerTests.UseCase.AssistantUserTests
 {
     [TestClass]
     public class Assistant_RemoveUserTest
@@ -20,7 +21,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
         public void RemoveUser_ThrowException_WhenUserIsNull()
         {
             //ARRANGE
-            var assistant = new AssistantRole(MockUofW.Object);
+            var assistant = new RSAssistantRole(MockUofW.Object);
 
             //ASSERT
             Assert.ThrowsException<ArgumentNullException>(() => assistant.RemoveUser(null));
@@ -31,7 +32,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
         {
             //ARRANGE
             var userIdZero = new UserTO { Id = 0, Name = "User Name" };
-            var assistant = new AssistantRole(MockUofW.Object);
+            var assistant = new RSAssistantRole(MockUofW.Object);
 
             //ASSERT
             Assert.ThrowsException<Exception>(() => assistant.RemoveUser(userIdZero));
@@ -44,7 +45,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
             MockUserRepository.Setup(x => x.Remove(It.IsAny<UserTO>()));
             MockUofW.Setup(x => x.UserRepository).Returns(MockUserRepository.Object);
 
-            var assistant = new AssistantRole(MockUofW.Object);
+            var assistant = new RSAssistantRole(MockUofW.Object);
             var userToRemove = new UserTO { Id = 1, Name = "User Name", IsActivated = true };
 
             //ASSERT
@@ -58,7 +59,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
             MockUserRepository.Setup( x => x.Remove(It.IsAny<UserTO>()));
             MockUofW.Setup(x => x.UserRepository).Returns(MockUserRepository.Object);
 
-            var ass = new AssistantRole(MockUofW.Object);
+            var ass = new RSAssistantRole(MockUofW.Object);
             var userToRemoveOnce = new UserTO { Id = 1, Name = "User Name" };
 
             //ACT

@@ -7,8 +7,9 @@ using Moq;
 using System.Linq;
 using OnlineServices.Common.RegistrationServices.Interfaces;
 using OnlineServices.Common.RegistrationServices.TransferObject;
+using RegistrationServices.BusinessLayer.UseCase.Assistant;
 
-namespace RegistrationServices.BusinessLayerTests.UseCase
+namespace RegistrationServices.BusinessLayerTests.UseCase.AssistantUserTests
 {
     [TestClass]
     public class Assistant_GetUsersTest
@@ -33,7 +34,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
             MockUserRepository.Setup( x=>x.GetAll()).Returns(UserList);
             MockUofW.Setup(x => x.UserRepository).Returns(MockUserRepository.Object);
 
-            var ass = new AssistantRole(MockUofW.Object);
+            var ass = new RSAssistantRole(MockUofW.Object);
 
             //ACT
             var users = ass.GetUsers();
@@ -50,7 +51,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
             MockUserRepository.Setup( x => x.GetAll()).Returns(UserList);
             MockUofW.Setup( x => x.UserRepository ).Returns(MockUserRepository.Object);
 
-            var ass = new AssistantRole(MockUofW.Object);
+            var ass = new RSAssistantRole(MockUofW.Object);
 
             //ACT
             var usersAll = ass.GetUsers();
@@ -59,17 +60,13 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
             MockUserRepository.Verify(x=>x.GetAll(), Times.Once);
 
         }
-        //===============================================================================================================
-        /// <summary>
-        /// Get UserById Tests
-        /// </summary>
-
+        
         [TestMethod]
         public void GetUser_NullReferenceException_WhenUserIDisZero()
         {
             //ARRANGE
             int userId = 0;
-            var Assistante = new AssistantRole((new Mock<IRSUnitOfWork>()).Object);
+            var Assistante = new RSAssistantRole(new Mock<IRSUnitOfWork>().Object);
 
             //ASSERT
             Assert.ThrowsException<NullReferenceException>(() => Assistante.GetUserById(userId));
@@ -83,7 +80,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
             MockUserRepository.Setup(x => x.GetById(userId)).Returns(UserList().FirstOrDefault(x=>x.Id == userId));
             MockUofW.Setup(x => x.UserRepository).Returns(MockUserRepository.Object);
 
-            var ass = new AssistantRole(MockUofW.Object);
+            var ass = new RSAssistantRole(MockUofW.Object);
 
             //ACT
             var userById = ass.GetUserById(userId);
@@ -100,7 +97,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
             MockUserRepository.Setup(x => x.GetById(userId)).Returns(UserList().FirstOrDefault(x => x.Id == userId));
             MockUofW.Setup(x => x.UserRepository).Returns(MockUserRepository.Object);
 
-            var ass = new AssistantRole(MockUofW.Object);
+            var ass = new RSAssistantRole(MockUofW.Object);
 
             //ACT
             var userById = ass.GetUserById(userId);

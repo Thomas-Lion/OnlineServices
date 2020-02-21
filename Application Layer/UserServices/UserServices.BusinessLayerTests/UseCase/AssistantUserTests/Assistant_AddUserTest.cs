@@ -8,8 +8,9 @@ using RegistrationServices.BusinessLayer;
 using OnlineServices.Common.RegistrationServices.Interfaces;
 using OnlineServices.Common.RegistrationServices.TransferObject;
 using OnlineServices.Common.Exceptions;
+using RegistrationServices.BusinessLayer.UseCase.Assistant;
 
-namespace RegistrationServices.BusinessLayerTests.UseCase
+namespace RegistrationServices.BusinessLayerTests.UseCase.AssistantUserTests
 {
     [TestClass]
     public class Assistant_AddUserTest
@@ -21,7 +22,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
         public void AddUser_ThrowException_WhenUserIDisDiferentThanZero()
         {
             //ARRANGE
-            var assistant = new AssistantRole( (new Mock<IRSUnitOfWork>()).Object   );
+            var assistant = new RSAssistantRole( new Mock<IRSUnitOfWork>().Object   );
             var userToAdd = new UserTO { Id = 1, Name = "User", IsActivated = true, Company = "Company1", Role = UserRole.Assistant, Email = "user@gmail.com" };
 
             //ASSERT
@@ -36,7 +37,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
             var userNameNull = new UserTO { Id = 0, Name = null};
 
             var mockUofW = new Mock<IRSUnitOfWork>();
-            var assistant = new AssistantRole(mockUofW.Object);
+            var assistant = new RSAssistantRole(mockUofW.Object);
 
             //ASSERT
             Assert.ThrowsException<IsNullOrWhiteSpaceException>(() => assistant.AddUser(userNameWhiteSpace));
@@ -47,7 +48,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
         public void AddUser_ThrowException_WhenLoggedUserIsNull()
         {
             //ARRANGE
-            var assistant = new AssistantRole(MockUofW.Object);
+            var assistant = new RSAssistantRole(MockUofW.Object);
 
             //ASSERT
             Assert.ThrowsException<LoggedException>( () => assistant.AddUser(null)  );
@@ -63,7 +64,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
             var mockUofW = new Mock<IRSUnitOfWork>();
             mockUofW.Setup(x => x.UserRepository).Returns(MockUserRepository.Object);
 
-            var assistant = new AssistantRole(mockUofW.Object);
+            var assistant = new RSAssistantRole(mockUofW.Object);
 
             //ASSERT
             Assert.IsTrue(assistant.AddUser(newUser));
@@ -76,7 +77,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
             MockUserRepository.Setup( x => x.Add(It.IsAny<UserTO>()) );
             MockUofW.Setup( x => x.UserRepository).Returns(MockUserRepository.Object);
 
-            var ass = new AssistantRole(MockUofW.Object);
+            var ass = new RSAssistantRole(MockUofW.Object);
             var newUser = new UserTO { Id = 0, Name = "New User" };
 
             //ACT
