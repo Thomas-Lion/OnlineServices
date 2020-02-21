@@ -2,6 +2,7 @@
 using OnlineServices.Common.EvaluationServices.TransfertObjects;
 using OnlineServices.Common.Exceptions;
 using OnlineServices.Common.Extensions;
+using OnlineServices.Common.RegistrationServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,9 @@ namespace EvaluationServices.BusinessLayer.UseCases
     {
         public FormTO2 GetActiveForm(int sessionId, int attendeeId)
         {
+            
             //Etape Tester
-            var session = iRSServiceRole.GetSessionById(sessionId);
+            var session = iRSAssistantRole.GetSessionById(sessionId);
 
             //1. User is in session
             if (!session.Attendees.Any(x => x.Id == attendeeId))

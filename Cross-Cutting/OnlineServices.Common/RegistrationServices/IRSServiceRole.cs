@@ -8,6 +8,7 @@ namespace OnlineServices.Common.RegistrationServices
     //Todo to be checked
     public interface IRSServiceRole
     {
+        //SessionTO GetSessionById(int sessionId);
 
     }
 }
