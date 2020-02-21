@@ -43,27 +43,27 @@ namespace RegistrationServices.DataLayer.Extensions
 
             result.UserSessions = new List<UserSessionEF>();
 
-            foreach (var user in session.Attendees)
-            {
-                var userSession = new UserSessionEF()
-                {
-                    SessionId = session.Id,
-                    Session = result,
-                    UserId = user.Id,
-                    User = user.ToEF()
-                };
-                result.UserSessions.Add(userSession);
-            }
+            //foreach (var user in session.Attendees)
+            //{
+            //    var userSession = new UserSessionEF()
+            //    {
+            //        SessionId = session.Id,
+            //        Session = result,
+            //        UserId = user.Id,
+            //        User = user.ToEF()
+            //    };
+            //    result.UserSessions.Add(userSession);
+            //}
 
-            var teacherEF = new UserSessionEF()
-            {
-                SessionId = session.Id,
-                Session = result,
-                UserId = session.Teacher.Id,
-                User = session.Teacher.ToEF()
-            };
+            //var teacherEF = new UserSessionEF()
+            //{
+            //    SessionId = session.Id,
+            //    Session = result,
+            //    UserId = session.Teacher.Id,
+            //    User = session.Teacher.ToEF()
+            //};
 
-            result.UserSessions.Add(teacherEF);
+            //result.UserSessions.Add(teacherEF);
 
             //foreach (UserSessionEF item in result.UserSessions)
             //{

@@ -76,11 +76,11 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                     //Id = 1,
                     Attendees = new List<UserTO>()
                 {
-                    Michou
+                    AddedAttendee
                 },
 
                     Course = AddedCourse,
-                    Teacher = Teacher,
+                    Teacher = AddedTeacher,
                 };
 
                 var AddedSession = sessionRepository.Add(SQLSession);
