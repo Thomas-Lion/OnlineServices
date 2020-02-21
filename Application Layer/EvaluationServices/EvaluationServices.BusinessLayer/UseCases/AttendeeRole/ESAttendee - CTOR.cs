@@ -15,13 +15,13 @@ namespace EvaluationServices.BusinessLayer.UseCases
     public partial class ESAttendeeRole : IESAttendeeRole
     {
         private readonly IESUnitOfWork iESUnitOfWork;
-        private readonly IRSServiceRole iRSServiceRole;
+        private readonly IRSAssistantRole iRSAssistantRole;
 
         // Constructor
-        public ESAttendeeRole(IESUnitOfWork iESUnitOfWork, IRSServiceRole iRSServiceRole)
+        public ESAttendeeRole(IESUnitOfWork iESUnitOfWork, IRSAssistantRole iRSAssistantRole)
         {
             this.iESUnitOfWork = iESUnitOfWork ?? throw new ArgumentNullException(nameof(iESUnitOfWork));
-            this.iRSServiceRole = iRSServiceRole ?? throw new ArgumentNullException(nameof(iRSServiceRole));
+            this.iRSAssistantRole = iRSAssistantRole ?? throw new ArgumentNullException(nameof(iRSAssistantRole));
         }
     }
 }

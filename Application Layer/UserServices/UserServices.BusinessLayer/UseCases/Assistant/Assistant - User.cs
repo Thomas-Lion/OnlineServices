@@ -86,5 +86,17 @@ namespace RegistrationServices.BusinessLayer.UseCase.Assistant
         {
             return iRSUnitOfWork.UserRepository.GetById(id);
         }
+
+        //TODO To be checked
+        public List<UserTO> GetUsersBySession(int sessionId)
+        {
+            throw new NotImplementedException();
+        }
+
+        //TODO To be checked
+        public bool IsUserInSession(int userId, int sessionId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

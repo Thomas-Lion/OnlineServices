@@ -35,7 +35,7 @@
 //            if (sessionId <= 0)
 //                throw new Exception("SessionId must be greater then 0");
 
-//            var listUser = registrationServiceIoC.GetSessionAttendes(sessionId);
+//            var listUser = registrationServiceIoC.GetUsersBySession(sessionId);
 
 //            var listPresence = new List<CheckInTO>();
 

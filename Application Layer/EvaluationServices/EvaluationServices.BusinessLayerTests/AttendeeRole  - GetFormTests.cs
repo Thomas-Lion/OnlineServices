@@ -23,8 +23,8 @@ namespace EvaluationServices.BusinessLayerTests
         {
             //ESAttendeeRole(IESUnitOfWork iESUnitOfWork, IRSServiceRole iRSServiceRole)
             var mockUnitOfWork = new Mock<IESUnitOfWork>();
-            var mockRSServiceRole = new Mock<IRSServiceRole>();
-            mockRSServiceRole.Setup(x => x.GetSession(It.IsAny<int>())).Throws<LoggedException>();
+            var mockRSServiceRole = new Mock<IRSAssistantRole>();
+            mockRSServiceRole.Setup(x => x.GetSessionById(It.IsAny<int>())).Throws<LoggedException>();
 
             var attendee = new ESAttendeeRole(mockUnitOfWork.Object, mockRSServiceRole.Object);
 
@@ -36,14 +36,14 @@ namespace EvaluationServices.BusinessLayerTests
         {
             //ESAttendeeRole(IESUnitOfWork iESUnitOfWork, IRSServiceRole iRSServiceRole)
             var mockUnitOfWork = new Mock<IESUnitOfWork>();
-            var mockRSServiceRole = new Mock<IRSServiceRole>();
+            var mockRSServiceRole = new Mock<IRSAssistantRole>();
             var SessionToForRSService = new SessionTO
             {
                 Id = 1,
                 Attendees = new List<UserTO>() { new UserTO { Id = 1 } }
             };
 
-            mockRSServiceRole.Setup(x => x.GetSession(It.IsAny<int>())).Returns(SessionToForRSService);
+            mockRSServiceRole.Setup(x => x.GetSessionById(It.IsAny<int>())).Returns(SessionToForRSService);
 
             var attendee = new ESAttendeeRole(mockUnitOfWork.Object, mockRSServiceRole.Object);
 
@@ -54,7 +54,7 @@ namespace EvaluationServices.BusinessLayerTests
         {
             //ESAttendeeRole(IESUnitOfWork iESUnitOfWork, IRSServiceRole iRSServiceRole)
             var mockUnitOfWork = new Mock<IESUnitOfWork>();
-            var mockRSServiceRole = new Mock<IRSServiceRole>();
+            var mockRSServiceRole = new Mock<IRSAssistantRole>();
             var SessionToForRSService = new SessionTO
             {
                 Id = 1,
@@ -66,7 +66,7 @@ namespace EvaluationServices.BusinessLayerTests
                 }
             };
 
-            mockRSServiceRole.Setup(x => x.GetSession(It.IsAny<int>())).Returns(SessionToForRSService);
+            mockRSServiceRole.Setup(x => x.GetSessionById(It.IsAny<int>())).Returns(SessionToForRSService);
 
             var attendee = new ESAttendeeRole(mockUnitOfWork.Object, mockRSServiceRole.Object);
 
@@ -78,7 +78,7 @@ namespace EvaluationServices.BusinessLayerTests
         {
             //ESAttendeeRole(IESUnitOfWork iESUnitOfWork, IRSServiceRole iRSServiceRole)
             var mockUnitOfWork = new Mock<IESUnitOfWork>();
-            var mockRSServiceRole = new Mock<IRSServiceRole>();
+            var mockRSServiceRole = new Mock<IRSAssistantRole>();
             var SessionToForRSService = new SessionTO
             {
                 Id = 1,
@@ -91,7 +91,7 @@ namespace EvaluationServices.BusinessLayerTests
                 }
             };
 
-            mockRSServiceRole.Setup(x => x.GetSession(It.IsAny<int>())).Returns(SessionToForRSService);
+            mockRSServiceRole.Setup(x => x.GetSessionById(It.IsAny<int>())).Returns(SessionToForRSService);
 
             var attendee = new ESAttendeeRole(mockUnitOfWork.Object, mockRSServiceRole.Object);
 
@@ -108,7 +108,7 @@ namespace EvaluationServices.BusinessLayerTests
             mockUnitOfWork.Setup(x => x.SubmissionRepository.IsAlreadySubmitted(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(true);
 
-            var mockRSServiceRole = new Mock<IRSServiceRole>();
+            var mockRSServiceRole = new Mock<IRSAssistantRole>();
             var SessionToForRSService = new SessionTO
             {
                 Id = 1,
@@ -121,7 +121,7 @@ namespace EvaluationServices.BusinessLayerTests
                 }
             };
 
-            mockRSServiceRole.Setup(x => x.GetSession(It.IsAny<int>())).Returns(SessionToForRSService);
+            mockRSServiceRole.Setup(x => x.GetSessionById(It.IsAny<int>())).Returns(SessionToForRSService);
 
             var attendee = new ESAttendeeRole(mockUnitOfWork.Object, mockRSServiceRole.Object);
 
@@ -136,7 +136,7 @@ namespace EvaluationServices.BusinessLayerTests
                 .Returns(false) //Form 1 not submitted
                 .Returns(true); //Form 2 submitted
 
-            var mockRSServiceRole = new Mock<IRSServiceRole>();
+            var mockRSServiceRole = new Mock<IRSAssistantRole>();
             var SessionToForRSService = new SessionTO
             {
                 Id = 1,
@@ -149,7 +149,7 @@ namespace EvaluationServices.BusinessLayerTests
                 }
             };
 
-            mockRSServiceRole.Setup(x => x.GetSession(It.IsAny<int>())).Returns(SessionToForRSService);
+            mockRSServiceRole.Setup(x => x.GetSessionById(It.IsAny<int>())).Returns(SessionToForRSService);
 
             var attendee = new ESAttendeeRole(mockUnitOfWork.Object, mockRSServiceRole.Object);
 
@@ -164,7 +164,7 @@ namespace EvaluationServices.BusinessLayerTests
             mockUnitOfWork.Setup(x => x.SubmissionRepository.IsAlreadySubmitted(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(true);
 
-            var mockRSServiceRole = new Mock<IRSServiceRole>();
+            var mockRSServiceRole = new Mock<IRSAssistantRole>();
             var SessionToForRSService = new SessionTO
             {
                 Id = 1,
@@ -177,7 +177,7 @@ namespace EvaluationServices.BusinessLayerTests
                 }
             };
 
-            mockRSServiceRole.Setup(x => x.GetSession(It.IsAny<int>())).Returns(SessionToForRSService);
+            mockRSServiceRole.Setup(x => x.GetSessionById(It.IsAny<int>())).Returns(SessionToForRSService);
 
             var attendee = new ESAttendeeRole(mockUnitOfWork.Object, mockRSServiceRole.Object);
 
@@ -210,7 +210,7 @@ namespace EvaluationServices.BusinessLayerTests
                 });
 
             //ARRANGE - MOCKS IRSServiceRole
-            var mockRSServiceRole = new Mock<IRSServiceRole>();
+            var mockRSServiceRole = new Mock<IRSAssistantRole>();
             var SessionToForRSService = new SessionTO
             {
                 Id = 1,
@@ -222,7 +222,7 @@ namespace EvaluationServices.BusinessLayerTests
                     new SessionDayTO { Id=3, Date = TrainingDay3}
                 }
             };
-            mockRSServiceRole.Setup(x => x.GetSession(It.IsAny<int>())).Returns(SessionToForRSService);
+            mockRSServiceRole.Setup(x => x.GetSessionById(It.IsAny<int>())).Returns(SessionToForRSService);
 
             //ACT
             var attendee = new ESAttendeeRole(mockUnitOfWork.Object, mockRSServiceRole.Object);
