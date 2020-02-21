@@ -30,9 +30,53 @@ namespace RegistrationServices.DataLayer.Repositories
             }
 
             var sessionEF = Entity.ToEF();
-            sessionEF.Course = registrationContext.Courses.First(x => x.Id == Entity.Course.Id);
+            sessionEF.Course = registrationContext.Courses.FirstOrDefault(x => x.Id == Entity.Course.Id);
 
-            registrationContext.Sessions.Add(sessionEF);
+            // registrationContext.Users.Select(u=> u.Id == Entity.Attendees)
+
+
+            //foreach (var user in Entity.Attendees)
+            //{
+            //    if (user.Id != 0)
+            //    {
+            //        var existingattendee = registrationContext.Users.First(u => u.Id == user.Id);
+            //        sessionEF.UserSessions.Select()
+            //    }
+            //    else
+            //    {
+            //        registrationContext.Users.Add(user.ToEF());
+            //    }
+
+            //}
+
+            sessionEF.UserSessions = new List<UserSessionEF>() ;
+            var session = registrationContext.Sessions.Add(sessionEF).Entity;
+
+            //TODO 1) userserssion.sessionid= nouvelle sessionid
+            //TODO 2) registrationContext.UserSessions.Add
+            foreach (var user in Entity.Attendees)
+            {
+                var userSession = new UserSessionEF()
+                {
+                    SessionId = session.Id,
+                    Session = session,
+                    UserId = user.Id,
+                    User = registrationContext.Users.First(x=>x.Id == user.Id)
+                };
+                registrationContext.UserSessions.Add(userSession);
+            }
+
+            var teacherEF = new UserSessionEF()
+            {
+                SessionId = session.Id,
+                Session = session,
+                UserId = Entity.Teacher.Id,
+                User = registrationContext.Users.First(x => x.Id == Entity.Teacher.Id)
+            };
+
+            registrationContext.UserSessions.Add(teacherEF);
+            
+
             return sessionEF.ToTransfertObject();
             // => registrationContext.Add(Entity.ToEF()).Entity.ToTransfertObject();
         }
@@ -55,7 +99,7 @@ namespace RegistrationServices.DataLayer.Repositories
 
             return registrationContext.Sessions
             .AsNoTracking()
-            .Include(x => x.UserSessions)
+            .Include(x => x.UserSessions).ThenInclude(x =>x.User)
             .Include(x => x.Dates)
             .FirstOrDefault(x => x.Id == Id).ToTransfertObject();
         }

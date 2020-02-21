@@ -11,7 +11,7 @@ using OnlineServices.Common.Exceptions;
 
 namespace RegistrationServices.BusinessLayer.UseCase.Assistant
 {
-    public partial class AssistantRole : IRSAssistantRoleCourse
+    public partial class RSAssistantRole : IRSAssistantRole
     {
         public bool AddCourse(CourseTO courseTo)
         {
