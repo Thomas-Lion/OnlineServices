@@ -9,7 +9,7 @@ using System.Linq;
 using OnlineServices.Common.RegistrationServices.TransferObject;
 
 namespace RegistrationServices.BusinessLayerTests.UseCase.AssistantTests
-z{
+{
     [TestClass]
     public class Assistant_GetCoursesTest
     {
