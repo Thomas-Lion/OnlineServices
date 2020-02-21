@@ -8,8 +8,9 @@ using RegistrationServices.BusinessLayer;
 using OnlineServices.Common.RegistrationServices.Interfaces;
 using OnlineServices.Common.RegistrationServices.TransferObject;
 using OnlineServices.Common.Exceptions;
+using RegistrationServices.BusinessLayer.UseCase.Assistant;
 
-namespace RegistrationServices.BusinessLayerTests.UseCase
+namespace RegistrationServices.BusinessLayerTests.UseCase.AssistantUserTests
 {
     [TestClass]
     public class Assistant_UpdateUserTest
@@ -21,7 +22,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
         public void UpdateUser_ThrowException_WhenUserIsNull()
         {
             //ARRANGE
-            var assistant = new AssistantRole(MockUofW.Object);
+            var assistant = new RSAssistantRole(MockUofW.Object);
 
             //ASSERT
             Assert.ThrowsException<ArgumentNullException>(() => assistant.UpdateSession(null));
@@ -32,7 +33,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
         {
             //ARRANGE
             var userIdZero = new UserTO { Id = 0, Name = "User Name" };
-            var assistant = new AssistantRole(MockUofW.Object);
+            var assistant = new RSAssistantRole(MockUofW.Object);
 
             //ASSERT
             Assert.ThrowsException<Exception>(() => assistant.UpdateUser(userIdZero));
@@ -43,7 +44,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
         {
             //ARRANGE
             var userNameWhiteSpace = new UserTO { Id = 1, Name = null };
-            var assistant = new AssistantRole(MockUofW.Object);
+            var assistant = new RSAssistantRole(MockUofW.Object);
 
             //ASSERT
             Assert.ThrowsException<IsNullOrWhiteSpaceException>(() => assistant.UpdateUser(userNameWhiteSpace));
@@ -54,7 +55,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
         {
             //ARRANGE
             var userNameWhiteSpace = new UserTO { Id = 1, Name = "" };
-            var assistant = new AssistantRole(MockUofW.Object);
+            var assistant = new RSAssistantRole(MockUofW.Object);
 
             //ASSERT
             Assert.ThrowsException<IsNullOrWhiteSpaceException>(() => assistant.UpdateUser(userNameWhiteSpace));
@@ -67,7 +68,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
             MockUserRepository.Setup(x => x.Update(It.IsAny<UserTO>())); //.Returns(user);
             MockUofW.Setup(x => x.UserRepository).Returns(MockUserRepository.Object);
             
-            var assistant = new AssistantRole(MockUofW.Object);
+            var assistant = new RSAssistantRole(MockUofW.Object);
             var user = new UserTO { Id = 1, Name = "Enrique" };
 
             //ASSERT
@@ -81,7 +82,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase
             MockUserRepository.Setup(x => x.Update(It.IsAny<UserTO>()));
             MockUofW.Setup( x => x.UserRepository).Returns(MockUserRepository.Object);
             
-            var ass = new AssistantRole(MockUofW.Object);
+            var ass = new RSAssistantRole(MockUofW.Object);
             var userToUpdate = new UserTO { Id = 1, Name = "Enrique" };
 
             //ACT
