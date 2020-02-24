@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using OnlineServices.Common.Exceptions;
 using OnlineServices.Common.RegistrationServices.Interfaces;
 using OnlineServices.Common.RegistrationServices.TransferObject;
 using RegistrationServices.DataLayer.Extensions;
@@ -38,10 +39,20 @@ namespace RegistrationServices.DataLayer.Repositories
             .ToList();
 
         public UserTO GetById(int Id)
-        => registrationContext.Users
-                .AsNoTracking()
-                .FirstOrDefault(x => x.Id == Id)
-                .ToTransfertObject();
+        {
+            if (Id <= 0)
+            {
+                throw new ArgumentException("Get User by Id Invalid Id");
+            }
+            if (!registrationContext.Users.Any(x => x.Id == Id))
+            {
+                throw new KeyNotFoundException($"UserRepository. GetById(int) No User with this Id: {Id}");
+            }
+            return registrationContext.Users
+                    .AsNoTracking()
+                    .FirstOrDefault(x => x.Id == Id)
+                    .ToTransfertObject();
+        }
 
         public IEnumerable<UserTO> GetUserByRole(UserRole role)
         => registrationContext.Users
@@ -52,6 +63,10 @@ namespace RegistrationServices.DataLayer.Repositories
 
         public IEnumerable<UserTO> GetUsersBySession(SessionTO session)
         {
+            if (session is null)
+            {
+                throw new ArgumentNullException(nameof(session));
+            }
             if ((session.Attendees == null || session.Attendees.Count() == 0) && session.Teacher == null)
                 throw new NullReferenceException();
             return registrationContext.UserSessions
@@ -72,9 +87,17 @@ namespace RegistrationServices.DataLayer.Repositories
             return returnValue;
         }
 
-        public bool Remove(UserTO entity)
+        public bool Remove(UserTO Entity)
         {
-            var entityToDelete = registrationContext.Users.FirstOrDefault(x => x.Id == entity.Id);
+            if (Entity is null)
+            {
+                throw new ArgumentNullException(nameof(Entity));
+            }
+            if (Entity.Id <= 0)
+            {
+                throw new ArgumentException("User To Remove Invalid Id");
+            }
+            var entityToDelete = registrationContext.Users.FirstOrDefault(x => x.Id == Entity.Id);
             registrationContext.Users.Remove(entityToDelete);
             return true;
         }
@@ -110,9 +133,17 @@ namespace RegistrationServices.DataLayer.Repositories
 
         public UserTO Update(UserTO Entity)
         {
+            if (Entity is null)
+            {
+                throw new ArgumentNullException(nameof(Entity));
+            }
+            if (Entity.Id <= 0)
+            {
+                throw new ArgumentException("User To Update Invalid Id");
+            }
             if (!registrationContext.Users.Any(x => x.Id == Entity.Id))
             {
-                throw new Exception($"Can't find user to update. UserRepository");
+                throw new KeyNotFoundException($"UserRepository. Update(UserTO) Can't find user to update.");
             }
             var attachedUser = registrationContext.Users
                 .FirstOrDefault(x => x.Id == Entity.Id);

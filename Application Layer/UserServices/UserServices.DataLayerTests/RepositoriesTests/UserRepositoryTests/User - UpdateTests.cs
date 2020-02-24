@@ -227,7 +227,7 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTe
             RSCxt.SaveChanges();
             //act & assert
             Assert.AreEqual(2, userRepository.GetAll().Count());
-            Assert.ThrowsException<Exception>(() => userRepository.Update(John));
+            Assert.ThrowsException<ArgumentException>(() => userRepository.Update(John));
         }
     }
 }
