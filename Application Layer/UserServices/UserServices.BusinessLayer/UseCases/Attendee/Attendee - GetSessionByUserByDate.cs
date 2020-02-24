@@ -16,12 +16,12 @@ namespace RegistrationServices.BusinessLayer.UseCase.Attendee
             {
                 var user = iRSUnitOfWork.UserRepository.GetById(userId);
                 var session = iRSUnitOfWork.SessionRepository.GetByUser(user);
-                var todaySession = session.First(s => s.SessionDays.Any(x => x.Date  == date));
-                return todaySession;
+                var demandedSession = session.First(s => s.SessionDays.Any(x => x.Date == date));
+                return demandedSession;
             }
             catch
             {
-                throw new LoggedException($"Cannot found any session for the given date (Date={date})");
+                throw new LoggedException($"Cannot found any session for the given date and user (Date={date}, User={userId})");
             }
         }
     }
