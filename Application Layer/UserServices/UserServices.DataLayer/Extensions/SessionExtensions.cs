@@ -11,15 +11,23 @@ namespace RegistrationServices.DataLayer.Extensions
     {
         public static SessionTO ToTransfertObject(this SessionEF session)
         {
-            return new SessionTO()
+            var sessionTO = new SessionTO()
             {
                 Id = session.Id,
-                Teacher = session.UserSessions.FirstOrDefault(x => x.User.Role == UserRole.Teacher).User.ToTransfertObject(),
                 Course = session.Course?.ToTransfertObject(),
-                //SessionDays = session.Dates.Select(x => x.ToTransfertObject()).ToList(),
-
-                Attendees = session.UserSessions.Where(x => x.User.Role == UserRole.Attendee).Select(x => x.User.ToTransfertObject()).ToList()
+                //SessionDays = session.Dates.Select(x => x.ToTransfertObject()).ToList(),                
             };
+
+            if (session.UserSessions.Any(x => x.User.Role == UserRole.Teacher))
+            {
+                sessionTO.Teacher = session.UserSessions.FirstOrDefault(x => x.User.Role == UserRole.Teacher).User.ToTransfertObject();
+            }
+
+            if (session.UserSessions.Any(x => x.User.Role == UserRole.Attendee))
+            {
+               sessionTO.Attendees = session.UserSessions.Where(x => x.User.Role == UserRole.Attendee).Select(x => x.User.ToTransfertObject()).ToList();
+            }
+            return sessionTO;
         }
 
         public static SessionEF ToEF(this SessionTO session)
@@ -43,27 +51,27 @@ namespace RegistrationServices.DataLayer.Extensions
 
             result.UserSessions = new List<UserSessionEF>();
 
-            foreach (var user in session.Attendees)
-            {
-                var userSession = new UserSessionEF()
-                {
-                    SessionId = session.Id,
-                    Session = result,
-                    UserId = user.Id,
-                    User = user.ToEF()
-                };
-                result.UserSessions.Add(userSession);
-            }
+            //foreach (var user in session.Attendees)
+            //{
+            //    var userSession = new UserSessionEF()
+            //    {
+            //        SessionId = session.Id,
+            //        Session = result,
+            //        UserId = user.Id,
+            //        User = user.ToEF()
+            //    };
+            //    result.UserSessions.Add(userSession);
+            //}
 
-            var teacherEF = new UserSessionEF()
-            {
-                SessionId = session.Id,
-                Session = result,
-                UserId = session.Teacher.Id,
-                User = session.Teacher.ToEF()
-            };
+            //var teacherEF = new UserSessionEF()
+            //{
+            //    SessionId = session.Id,
+            //    Session = result,
+            //    UserId = session.Teacher.Id,
+            //    User = session.Teacher.ToEF()
+            //};
 
-            result.UserSessions.Add(teacherEF);
+            //result.UserSessions.Add(teacherEF);
 
             //foreach (UserSessionEF item in result.UserSessions)
             //{

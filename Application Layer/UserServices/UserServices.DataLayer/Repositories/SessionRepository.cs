@@ -29,12 +29,53 @@ namespace RegistrationServices.DataLayer.Repositories
                 return Entity;
             }
 
-            var sessionEF = Entity.ToEF();
-            sessionEF.Course = registrationContext.Courses.First(x => x.Id == Entity.Course.Id);
+            if (Entity.Course.IsArchived)
+            {
+                throw new ArgumentException("Course can not be archived");
+            }
 
-            registrationContext.Sessions.Add(sessionEF);
+            var sessionEF = Entity.ToEF();
+            sessionEF.Course = registrationContext.Courses.FirstOrDefault(x => x.Id == Entity.Course.Id);
+
+            sessionEF.UserSessions = new List<UserSessionEF>();
+            var session = registrationContext.Sessions.Add(sessionEF).Entity;
+
+            //TODO 1) userserssion.sessionid= nouvelle sessionid
+            //TODO 2) registrationContext.UserSessions.Add
+
+            AddUserSession(Entity, session);
+
             return sessionEF.ToTransfertObject();
-            // => registrationContext.Add(Entity.ToEF()).Entity.ToTransfertObject();
+        }
+
+        private void AddUserSession(SessionTO Entity, SessionEF session)
+        {
+            if ((Entity.Attendees != null))
+            {
+                foreach (var user in Entity.Attendees)
+                {
+                    var userSession = new UserSessionEF()
+                    {
+                        SessionId = session.Id,
+                        Session = session,
+                        UserId = user.Id,
+                        User = registrationContext.Users.First(x => x.Id == user.Id)
+                    };
+                    registrationContext.UserSessions.Add(userSession);
+                }
+            }
+            if ((Entity.Teacher != null))
+            {
+                var teacherEF = new UserSessionEF()
+                {
+                    SessionId = session.Id,
+                    Session = session,
+                    UserId = Entity.Teacher.Id,
+                    User = registrationContext.Users.First(x => x.Id == Entity.Teacher.Id)
+                };
+
+                registrationContext.UserSessions.Add(teacherEF);
+            }
         }
 
         public IEnumerable<SessionTO> GetAll()
@@ -55,7 +96,7 @@ namespace RegistrationServices.DataLayer.Repositories
 
             return registrationContext.Sessions
             .AsNoTracking()
-            .Include(x => x.UserSessions)
+            .Include(x => x.UserSessions).ThenInclude(x => x.User)
             .Include(x => x.Dates)
             .FirstOrDefault(x => x.Id == Id).ToTransfertObject();
         }
@@ -102,15 +143,11 @@ namespace RegistrationServices.DataLayer.Repositories
             if (user.Role == UserRole.Assistant)
                 throw new ArgumentException("Assistant can not subscribe to sessions");
 
-            var prout = GetAll();
-
-            return GetAll().Where(x => (x.Attendees.Contains(user))
+            return GetAll().Where(x => (x.Attendees.Any(y => y.Id == user.Id))
             || (x.Teacher.Id == user.Id));
         }
 
         public IEnumerable<SessionTO> GetSessionsByDate(DateTime date)
-        {
-            throw new NotImplementedException();
-        }
+            => GetAll().Where(x => x.SessionDays.Any(y => y.Date == date));
     }
 }
