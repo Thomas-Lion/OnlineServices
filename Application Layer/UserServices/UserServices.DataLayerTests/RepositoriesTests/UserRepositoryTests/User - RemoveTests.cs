@@ -50,12 +50,13 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTe
 
             RSCxt.SaveChanges();
             //act
-            userRepository.Remove(AddedUser0.Id);
+            userRepository.Remove(AddedUser0);
             RSCxt.SaveChanges();
             //assert
             Assert.AreEqual(2, userRepository.GetAll().Count());
             Assert.IsFalse(userRepository.GetAll().Any(x => x.Id == 1));
         }
+
         [TestMethod]
         public void RemoveUser_WhenInvalidId()
         {
@@ -74,9 +75,9 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTe
             };
             userRepository.Add(John);
             RSCxt.SaveChanges();
-            Assert.ThrowsException<ArgumentNullException>(() => userRepository.Remove(15));
-
+            Assert.ThrowsException<KeyNotFoundException>(() => userRepository.Remove(15));
         }
+
         [TestMethod]
         public void RemoveUser_WhenInvalidUser()
         {
@@ -93,8 +94,7 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTe
                 Email = "John@JHON.Nee",
                 Role = UserRole.Attendee
             };
-            Assert.ThrowsException<ArgumentNullException>(() => userRepository.Remove(John));
-
+            Assert.ThrowsException<ArgumentException>(() => userRepository.Remove(John));
         }
     }
 }
