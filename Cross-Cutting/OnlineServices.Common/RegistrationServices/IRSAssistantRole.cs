@@ -14,13 +14,12 @@ namespace OnlineServices.Common.RegistrationServices
         UserTO GetUserById(int id);
         List<UserTO> GetUsersBySession(int sessionId);
 
-
         bool AddSession(SessionTO session);
         bool UpdateSession(SessionTO session);
         bool RemoveSession(SessionTO session);
         List<SessionTO> GetSessions();
-        SessionTO GetSessionById(int sessionId);
 
+        SessionTO GetSessionById(int sessionId);
 
         bool AddCourse(CourseTO course);
         bool UpdateCourse(CourseTO course);
@@ -29,6 +28,4 @@ namespace OnlineServices.Common.RegistrationServices
         CourseTO GetCourseById(int id);
         bool IsUserInSession(int userId, int sessionId);
     }
-
-    
 }

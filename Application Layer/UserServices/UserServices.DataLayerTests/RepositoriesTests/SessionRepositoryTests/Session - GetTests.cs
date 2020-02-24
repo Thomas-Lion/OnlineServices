@@ -86,14 +86,15 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                     //Id = 1,
                     Attendees = new List<UserTO>()
                 {
-                    Michou, Isabelle
+                    AddedAttendee, AddedAttendee2
                 },
 
                     Course = AddedCourse,
-                    Teacher = Teacher,
+                    Teacher = AddedTeacher,
                 };
 
                 var AddedSession = sessionRepository.Add(SQLSession);
+
                 context.SaveChanges();
 
                 Assert.AreEqual(2, sessionRepository.GetStudents(AddedSession).Count());
@@ -155,12 +156,12 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                 {
                     Attendees = new List<UserTO>()
                     {
-                         Michou
+                         AddedAttendee
                     },
 
                     Course = AddedCourse,
 
-                    Teacher = Teacher,
+                    Teacher = AddedTeacher,
 
                     SessionDays = new List<SessionDayTO>()
                     {

@@ -13,28 +13,14 @@ using System.Text;
 namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositoryTests
 {
     [TestClass]
-    public class Session_RemoveSessionTests
+    public class Session_UpdateTests
     {
         [TestMethod]
-        public void Should_Throw_Exception_When_Removing_NonExistingItem()
+        public void Should_Be_Renamed_As_()
         {
             var options = new DbContextOptionsBuilder<RegistrationContext>()
             .UseInMemoryDatabase(databaseName: MethodBase.GetCurrentMethod().Name)
             .Options;
-
-            using (var context = new RegistrationContext(options))
-            {
-                IRSSessionRepository sessionRepository = new SessionRepository(context);
-                Assert.ThrowsException<ArgumentException>(() => sessionRepository.Remove(1));
-            }
-        }
-
-        [TestMethod]
-        public void Should_Return_True_When_Item_Removed()
-        {
-            var options = new DbContextOptionsBuilder<RegistrationContext>()
-        .UseInMemoryDatabase(databaseName: MethodBase.GetCurrentMethod().Name)
-        .Options;
 
             using (var context = new RegistrationContext(options))
             {
@@ -58,40 +44,59 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                     Role = UserRole.Attendee
                 };
 
+                var Isabelle = new UserTO()
+                {
+                    Name = "Isabelle Balkany",
+                    Email = "isa@rendlargent.gouv",
+                    Role = UserRole.Attendee
+                };
+
                 var AddedTeacher = userRepository.Add(Teacher);
                 var AddedAttendee = userRepository.Add(Michou);
+                var AddedAttendee2 = userRepository.Add(Isabelle);
                 context.SaveChanges();
 
                 var SQLCourse = new CourseTO()
                 {
-                    //Id = 28,
                     Name = "SQL"
                 };
 
+                var MVCCourse = new CourseTO()
+                {
+                    Name = "MVC"
+                };
+
                 var AddedCourse = courseRepository.Add(SQLCourse);
+                var AddedCourse2 = courseRepository.Add(MVCCourse);
                 context.SaveChanges();
 
                 var SQLSession = new SessionTO()
                 {
-                    //Id = 1,
                     Attendees = new List<UserTO>()
+                    {
+                        AddedAttendee
+                    },
+
+                    Course = AddedCourse,
+                    Teacher = AddedTeacher,
+                };
+
+                var MVCSession = new SessionTO()
                 {
-                    AddedAttendee
-                },
+                    Attendees = new List<UserTO>()
+                    {
+                        AddedAttendee2
+                    },
 
                     Course = AddedCourse,
                     Teacher = AddedTeacher,
                 };
 
                 var AddedSession = sessionRepository.Add(SQLSession);
+                var AddedSession2 = sessionRepository.Add(MVCSession);
                 context.SaveChanges();
 
-                Assert.AreEqual(1, sessionRepository.GetAll().Count());
-
-                var RemovedSession = sessionRepository.Remove(1);
-                context.SaveChanges();
-
-                Assert.AreEqual(0, sessionRepository.GetAll().Count());
+                Assert.AreEqual(1, sessionRepository.GetByUser(AddedAttendee2).Count());
             }
         }
     }

@@ -9,20 +9,19 @@ using OnlineServices.Common.RegistrationServices;
 using OnlineServices.Common.RegistrationServices.TransferObject;
 using OnlineServices.Common.Exceptions;
 
-namespace RegistrationServices.BusinessLayer.UseCase.Assistant
+namespace RegistrationServices.BusinessLayer.UseCase.Attendee
 {
-    public partial class RSAssistantRole : IRSAssistantRole
+    public partial class RSAttendeeRole : IRSAttendeeRole
     {
         private readonly IRSUnitOfWork iRSUnitOfWork;
 
-        public RSAssistantRole(IRSUnitOfWork iRSUnitOfWork)
+        public RSAttendeeRole(IRSUnitOfWork iRSUnitOfWork)
         {
             this.iRSUnitOfWork = iRSUnitOfWork ?? throw new System.ArgumentNullException(nameof(iRSUnitOfWork));
         }
 
-        public RSAssistantRole()
+        public RSAttendeeRole()
         {
-
         }
     }
 }
