@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace RegistrationServices.BusinessLayerTests.UseCase.AssistantCourseTests
+namespace RegistrationServices.BusinessLayerTests.UseCase.AssistantTests
 {
     [TestClass]
     public class Assistant_UpdateCourseTest

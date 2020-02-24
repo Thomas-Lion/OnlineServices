@@ -15,7 +15,8 @@ namespace RegistrationServices.DataLayer.Extensions
             return new CourseTO()
             {
                 Id = course.Id,
-                Name = course.Name
+                Name = course.Name,
+                IsArchived = course.IsArchived
             };
         }
 
@@ -24,7 +25,8 @@ namespace RegistrationServices.DataLayer.Extensions
             return new CourseEF()
             {
                 Id = course.Id,
-                Name = course.Name
+                Name = course.Name,
+                IsArchived = course.IsArchived
             };
         }
 
@@ -43,6 +45,7 @@ namespace RegistrationServices.DataLayer.Extensions
             {
                 AttachedEF.Id = DetachedEF.Id;
                 AttachedEF.Name = DetachedEF.Name;
+                AttachedEF.IsArchived = DetachedEF.IsArchived;
             }
 
             return AttachedEF;

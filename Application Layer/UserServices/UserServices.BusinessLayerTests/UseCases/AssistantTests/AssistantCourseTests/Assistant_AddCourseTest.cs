@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Text;
 using RegistrationServices.BusinessLayer.UseCase.Assistant;
 
-namespace RegistrationServices.BusinessLayerTests.UseCase.AssistantCourseTests
+namespace RegistrationServices.BusinessLayerTests.UseCase.AssistantTests
 {
     [TestClass]
     public class Assistant_AddCourseTest
