@@ -1,15 +1,16 @@
-﻿using OnlineServices.Common.RegistrationServices.TransferObject;
+﻿using OnlineServices.Common.RegistrationServices;
+using OnlineServices.Common.RegistrationServices.TransferObject;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace RegistrationServices.BusinessLayer.UseCases.Attendee
+namespace RegistrationServices.BusinessLayer.UseCase.Attendee
 {
-    public partial class Attendee_GetSessionsByDate
+    public partial class RSAttendeeRole : IRSAttendeeRole
     {
-        public List<SessionTO> GetSessionsByDate(DateTime date) 
+        public IEnumerable<SessionTO> GetSessionsByDate(DateTime date)
         {
-            throw new Exception();
+            throw new NotImplementedException();
         }
     }
 }
