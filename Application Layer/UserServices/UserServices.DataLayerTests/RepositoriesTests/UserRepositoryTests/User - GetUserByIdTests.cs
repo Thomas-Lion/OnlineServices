@@ -53,6 +53,7 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTe
             Assert.AreEqual("Jack Jack", userRepository.GetById(AddedUser1.Id).Name);
             Assert.AreEqual("Jack@Kcaj.Niet", userRepository.GetById(AddedUser1.Id).Email);
         }
+
         [TestMethod]
         public void GetById_ThrowException()
         {
@@ -63,7 +64,7 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTe
             using var RSCxt = new RegistrationContext(options);
             IRSUserRepository userRepository = new UserRepository(RSCxt);
 
-            Assert.ThrowsException<NullReferenceException>(()=> userRepository.GetById(666));
+            Assert.ThrowsException<KeyNotFoundException>(() => userRepository.GetById(666));
         }
     }
 }

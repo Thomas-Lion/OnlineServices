@@ -28,6 +28,7 @@ namespace RegistrationServices.DataLayer.Repositories
             {
                 return Entity;
             }
+            Entity.IsActivated = true;
             return registrationContext.Users.Add(Entity.ToEF()).Entity.ToTransfertObject();
         }
 
@@ -35,6 +36,7 @@ namespace RegistrationServices.DataLayer.Repositories
         => registrationContext.Users
             .AsNoTracking()
             .Include(x => x.UserSessions)
+            .Where(x => x.IsActivated != false)
             .Select(x => x.ToTransfertObject())
             .ToList();
 
@@ -97,38 +99,23 @@ namespace RegistrationServices.DataLayer.Repositories
             {
                 throw new ArgumentException("User To Remove Invalid Id");
             }
-            var entityToDelete = registrationContext.Users.FirstOrDefault(x => x.Id == Entity.Id);
-            registrationContext.Users.Remove(entityToDelete);
-            return true;
+            return Remove(Entity.Id);
+            //var entityToDelete = registrationContext.Users.FirstOrDefault(x => x.Id == Entity.Id);
+            //registrationContext.Users.Remove(entityToDelete);
+            //return true;
         }
 
         public bool Remove(int Id)
         {
-            //var returnValue = false;
-            //var user = userContext.Users.FirstOrDefault(x => x.Id == Id);
-            //if (user != default)
-            //{
-            //    try
-            //    {
-            //        userContext.Users.Remove(user);
-            //        returnValue = true;
-            //    }
-            //    catch (Exception)
-            //    {
-            //        returnValue = false;
-            //    }
-            //}
-            //return returnValue;
-            try
+            var user = registrationContext.Users.FirstOrDefault(x => x.Id == Id);
+
+            if (user is null)
             {
-                var entityToDelete = registrationContext.Users.FirstOrDefault(x => x.Id == Id);
-                registrationContext.Users.Remove(entityToDelete);
-                return true;
+                throw new KeyNotFoundException($"UserRepository. Remove(Id) no user to delete.");
             }
-            catch (Exception Ex)
-            {
-                throw;
-            }
+
+            user.IsActivated = false;
+            return !registrationContext.Users.Update(user).Entity.IsActivated;
         }
 
         public UserTO Update(UserTO Entity)
