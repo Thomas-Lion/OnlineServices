@@ -17,9 +17,9 @@ namespace OS.AttendanceServices.BusinessLayer.UseCases
             if (checkInArgs is null)
                 throw new ArgumentNullException(nameof(checkInArgs));
 
-            if (!userServices.GetSessionAttendes(checkInArgs.SessionId).Any(x => x.Id == checkInArgs.AttendeeId))
+            if (!userServices.GetUsersBySession(checkInArgs.SessionId).Any(x => x.Id == checkInArgs.AttendeeId))
                 throw new Exception("Attendee do not exist in formation");
-            if (!userServices.GetSession(checkInArgs.SessionId).SessionDays.Any(x => x.Date.IsSameDate(DateTime.Now)))
+            if (!userServices.GetSessionById(checkInArgs.SessionId).SessionDays.Any(x => x.Date.IsSameDate(DateTime.Now)))
                 throw new Exception("This session is not held today.");
             if (!checkInArgs.CheckInTime.IsSameDate(DateTime.Now))
                 throw new Exception("Attendee is not allowed to check-in other day than the current one.");

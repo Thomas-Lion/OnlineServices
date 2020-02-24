@@ -9,7 +9,7 @@ namespace OnlineServices.Common.RegistrationServices.Interfaces
     {
         IEnumerable<UserTO> GetUserByRole(UserRole role);
 
-        IEnumerable<UserTO> GetUserBySession(SessionTO session);
+        IEnumerable<UserTO> GetUsersBySession(SessionTO session);
 
         bool IsInSession(UserTO user, SessionTO session);
     }

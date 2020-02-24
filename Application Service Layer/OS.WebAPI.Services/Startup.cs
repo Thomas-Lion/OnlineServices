@@ -52,7 +52,7 @@ namespace OS.WebAPI.Services
                 );
 
             //Mocks to implement...
-            services.AddTransient<IRSServiceRole>(x => RegistrationServicesMockHelper.RSServiceRoleObject());
+            services.AddTransient<IRSAssistantRole>(x => RegistrationServicesMockHelper.RSAssistantRoleObject());
             services.AddTransient<IRSAttendeeRole>(x => RegistrationServicesMockHelper.RSAttendeeRoleObject());
 
             //Implementations
