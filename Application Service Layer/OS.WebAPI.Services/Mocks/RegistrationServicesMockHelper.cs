@@ -46,7 +46,7 @@ namespace OS.WebAPI.Services.Mocks
             userServicesMOCK.Setup(marge => marge.GetIdByMail(It.IsAny<string>()))
                         .Returns(1);
 
-            userServicesMOCK.Setup(marge => marge.GetTodaySession(It.IsAny<int>()))
+            userServicesMOCK.Setup(marge => marge.GetSessionByUserByDate(It.IsAny<int>(), It.IsAny<DateTime>()))
                 .Returns(new SessionTO
                 {
                     Id = 12,
