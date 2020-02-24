@@ -29,6 +29,11 @@ namespace RegistrationServices.DataLayer.Repositories
                 return Entity;
             }
 
+            if (Entity.Course.IsArchived)
+            {
+                throw new ArgumentException("Course can not be archived");
+            }
+
             var sessionEF = Entity.ToEF();
             sessionEF.Course = registrationContext.Courses.FirstOrDefault(x => x.Id == Entity.Course.Id);
 
@@ -45,7 +50,7 @@ namespace RegistrationServices.DataLayer.Repositories
 
         private void AddUserSession(SessionTO Entity, SessionEF session)
         {
-            if ((Entity.Attendees != null) )
+            if ((Entity.Attendees != null))
             {
                 foreach (var user in Entity.Attendees)
                 {
