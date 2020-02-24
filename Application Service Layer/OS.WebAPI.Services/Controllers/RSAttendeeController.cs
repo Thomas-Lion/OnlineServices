@@ -24,9 +24,9 @@ namespace OS.WebAPI.Services.Controllers
         }
 
         [HttpGet("{userId}")]
-        public IActionResult GetTodaySession(int userId)
+        public IActionResult GetTodaySession(int userId, DateTime date)
         {
-            return new JsonResult(iRSAttendeeRole.GetTodaySession(userId));
+            return new JsonResult(iRSAttendeeRole.GetSessionByUserByDate(userId, date));
         }
 
         [HttpGet("{email}")]
