@@ -22,7 +22,6 @@ namespace RegistrationServices.BusinessLayer.UseCase.Attendee
 
         public RSAttendeeRole()
         {
-
         }
     }
 }
