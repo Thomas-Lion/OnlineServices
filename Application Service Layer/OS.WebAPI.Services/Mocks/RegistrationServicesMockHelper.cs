@@ -11,11 +11,11 @@ namespace OS.WebAPI.Services.Mocks
 {
     public static class RegistrationServicesMockHelper
     {
-        public static IRSServiceRole RSServiceRoleObject()
+        public static IRSAssistantRole RSAssistantRoleObject()
         {
-            var userServicesMOCK = new Mock<IRSServiceRole>();
+            var userServicesMOCK = new Mock<IRSAssistantRole>();
 
-            userServicesMOCK.Setup(marge => marge.GetSessionAttendes(It.IsAny<int>()))
+            userServicesMOCK.Setup(marge => marge.GetUsersBySession(It.IsAny<int>()))
                         .Returns(new List<UserTO> {
                             new UserTO { Id = 1}
                             , new UserTO { Id =2}
@@ -23,7 +23,7 @@ namespace OS.WebAPI.Services.Mocks
                             , new UserTO { Id =4}
                         });
 
-            userServicesMOCK.Setup(marge => marge.GetSession(It.IsAny<int>()))
+            userServicesMOCK.Setup(marge => marge.GetSessionById(It.IsAny<int>()))
                 .Returns(new SessionTO
                 {
                     Id = 12,

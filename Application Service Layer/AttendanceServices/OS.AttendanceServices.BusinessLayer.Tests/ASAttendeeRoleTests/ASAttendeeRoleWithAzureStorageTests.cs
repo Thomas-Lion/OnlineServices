@@ -22,15 +22,15 @@ namespace OS.AttendanceServices.BusinessLayer.Tests
         {
             var checkInRepository = new CheckInRepository(new AzureStorageCredentials());
 
-            var userServicesMOCK = new Mock<IRSServiceRole>();
-            userServicesMOCK.Setup(marge => marge.GetSessionAttendes(It.IsAny<int>()))
+            var userServicesMOCK = new Mock<IRSAssistantRole>();
+            userServicesMOCK.Setup(marge => marge.GetUsersBySession(It.IsAny<int>()))
                 .Returns(new List<UserTO> {
                     new UserTO { Id = 1 }
                     , new UserTO { Id =2 }
                     , new UserTO { Id =3}
                     , new UserTO { Id =4}
                 });
-            userServicesMOCK.Setup(marge => marge.GetSession(It.IsAny<int>()))
+            userServicesMOCK.Setup(marge => marge.GetSessionById(It.IsAny<int>()))
                 .Returns(new SessionTO
                 {
                     Id = 999999999,
