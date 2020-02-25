@@ -1,5 +1,5 @@
 ﻿using OnlineServices.Common.RegistrationServices.TransferObject;
-using RegistrationServices.BusinessLayer.Domain;
+using RegistrationServices.BusinessLayer;
 using System;
 using System.Collections.Generic;
 using System.Text;
