@@ -8,7 +8,7 @@ namespace RegistrationServices.BusinessLayer.Extensions
 {
     public static class SessionDayExtensions
     {
-        public static SessionDayTO ToTransfertObject(SessionDay sessionDay)
+        public static SessionDayTO ToTransfertObject(this SessionDay sessionDay)
         {
             if (sessionDay == null)
                 throw new ArgumentNullException(nameof(sessionDay));
@@ -21,7 +21,7 @@ namespace RegistrationServices.BusinessLayer.Extensions
             };
         }
 
-        public static SessionDay ToDomain(SessionDayTO sessionDay)
+        public static SessionDay ToDomain(this SessionDayTO sessionDay)
         {
             if (sessionDay == null)
                 throw new ArgumentNullException(nameof(sessionDay));

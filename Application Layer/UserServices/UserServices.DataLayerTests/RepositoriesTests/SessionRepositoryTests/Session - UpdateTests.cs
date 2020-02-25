@@ -30,7 +30,6 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
 
                 var Teacher = new UserTO()
                 {
-                    //Id = 420,
                     Name = "Christian",
                     Email = "gyssels@fartmail.com",
                     Role = UserRole.Teacher
@@ -38,7 +37,6 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
 
                 var Michou = new UserTO()
                 {
-                    //Id = 45,
                     Name = "Michou Miraisin",
                     Email = "michou@superbg.caca",
                     Role = UserRole.Attendee
@@ -81,7 +79,7 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                 Assert.AreEqual(1, sessionRepository.GetStudents(AddedSession).Count());
 
                 AddedSession.Attendees.Add(AddedAttendee2);
-                sessionRepository.Update(AddedSession);
+                AddedSession = sessionRepository.Update(AddedSession);
                 context.SaveChanges();
 
                 Assert.AreEqual(2, sessionRepository.GetStudents(AddedSession).Count());
@@ -103,7 +101,6 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
 
                 var Teacher = new UserTO()
                 {
-                    //Id = 420,
                     Name = "Christian",
                     Email = "gyssels@fartmail.com",
                     Role = UserRole.Teacher,
@@ -111,7 +108,6 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
 
                 var Michou = new UserTO()
                 {
-                    //Id = 45,
                     Name = "Michou Miraisin",
                     Email = "michou@superbg.caca",
                     Role = UserRole.Attendee,
@@ -152,7 +148,6 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                 context.SaveChanges();
                 Assert.AreEqual(2, sessionRepository.GetStudents(AddedSession).Count());
 
-                //AddedSession.Attendees.Remove(AddedSession.Attendees.FirstOrDefault(x => x.Name == "Michou Miraisin"));
                 AddedSession.Attendees.Remove(AddedAttendee);
                 Assert.AreEqual(1, AddedSession.Attendees.Count());
 
@@ -177,7 +172,6 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
 
                 var Teacher = new UserTO()
                 {
-                    //Id = 420,
                     Name = "Christian",
                     Email = "gyssels@fartmail.com",
                     Role = UserRole.Teacher
@@ -185,7 +179,6 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
 
                 var Michou = new UserTO()
                 {
-                    //Id = 45,
                     Name = "Michou Miraisin",
                     Email = "michou@superbg.caca",
                     Role = UserRole.Attendee
@@ -249,7 +242,6 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
 
                 var Teacher = new UserTO()
                 {
-                    //Id = 420,
                     Name = "Christian",
                     Email = "gyssels@fartmail.com",
                     Role = UserRole.Teacher
@@ -257,7 +249,6 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
 
                 var Michou = new UserTO()
                 {
-                    //Id = 45,
                     Name = "Michou Miraisin",
                     Email = "michou@superbg.caca",
                     Role = UserRole.Attendee

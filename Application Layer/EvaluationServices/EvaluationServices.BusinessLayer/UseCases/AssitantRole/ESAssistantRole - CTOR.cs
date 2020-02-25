@@ -16,6 +16,7 @@ namespace EvaluationServices.BusinessLayer.UseCases.AssitantRole
 
         //Constructor
         public ESAssistantRole(IESUnitOfWork iESUnitOfWork, IRSAssistantRole iRSAssistantRole)
+
         {
             this.iESUnitOfWork = iESUnitOfWork ?? throw new ArgumentNullException(nameof(iESUnitOfWork));
             this.iRSAssistantRole = iRSAssistantRole ?? throw new ArgumentNullException(nameof(iRSAssistantRole));
