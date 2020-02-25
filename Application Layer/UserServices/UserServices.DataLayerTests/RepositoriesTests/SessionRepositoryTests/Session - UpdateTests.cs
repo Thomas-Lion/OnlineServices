@@ -106,7 +106,8 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                     //Id = 420,
                     Name = "Christian",
                     Email = "gyssels@fartmail.com",
-                    Role = UserRole.Teacher
+                    Role = UserRole.Teacher,
+                    IsActivated = true
                 };
 
                 var Michou = new UserTO()
@@ -114,14 +115,16 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                     //Id = 45,
                     Name = "Michou Miraisin",
                     Email = "michou@superbg.caca",
-                    Role = UserRole.Attendee
+                    Role = UserRole.Attendee,
+                    IsActivated = true
                 };
 
                 var Isabelle = new UserTO()
                 {
                     Name = "Isabelle Balkany",
                     Email = "isa@rendlargent.gouv",
-                    Role = UserRole.Attendee
+                    Role = UserRole.Attendee,
+                    IsActivated = true
                 };
 
                 var AddedTeacher = userRepository.Add(Teacher);
@@ -152,8 +155,11 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                 context.SaveChanges();
                 Assert.AreEqual(2, sessionRepository.GetStudents(AddedSession).Count());
 
-                AddedSession.Attendees.Remove(AddedAttendee2);
-                sessionRepository.Update(AddedSession);
+                //AddedSession.Attendees.Remove(AddedSession.Attendees.FirstOrDefault(x => x.Name == "Michou Miraisin"));
+                AddedSession.Attendees.Remove(AddedAttendee);
+                Assert.AreEqual(1, AddedSession.Attendees.Count());
+
+                AddedSession = sessionRepository.Update(AddedSession);
                 context.SaveChanges();
                 Assert.AreEqual(1, sessionRepository.GetStudents(AddedSession).Count());
             }
@@ -301,7 +307,7 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                 AddedSession.Course = AddedCourse2;
                 AddedSession = sessionRepository.Update(AddedSession);
                 context.SaveChanges();
-                Assert.AreEqual(1, sessionRepository.GetStudents(AddedSession).Count());
+                Assert.AreEqual("MVC", AddedSession.Course.Name);
             }
         }
     }
