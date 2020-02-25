@@ -15,7 +15,7 @@ namespace OnlineServices.WebUx.Mvc6
 
             var mockILogger = new Mock<IRSAssistantRole>();
 
-           // mockILogger.Setup(x => x.);
+            // mockILogger.Setup(x => x.);
 
             return mockILogger.Object;
         }

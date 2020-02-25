@@ -103,21 +103,21 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                 {
                     Name = "Christian",
                     Email = "gyssels@fartmail.com",
-                    Role = UserRole.Teacher
+                    Role = UserRole.Teacher,
                 };
 
                 var Michou = new UserTO()
                 {
                     Name = "Michou Miraisin",
                     Email = "michou@superbg.caca",
-                    Role = UserRole.Attendee
+                    Role = UserRole.Attendee,
                 };
 
                 var Isabelle = new UserTO()
                 {
                     Name = "Isabelle Balkany",
                     Email = "isa@rendlargent.gouv",
-                    Role = UserRole.Attendee
+                    Role = UserRole.Attendee,
                 };
 
                 var AddedTeacher = userRepository.Add(Teacher);
