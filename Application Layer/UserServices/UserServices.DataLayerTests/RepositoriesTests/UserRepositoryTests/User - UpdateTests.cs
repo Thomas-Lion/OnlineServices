@@ -99,7 +99,7 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTe
             userRepository.Update(AddedUser1);
             RSCxt.SaveChanges();
             //assert
-            Assert.AreEqual(3, userRepository.GetAll().Count());
+            Assert.AreEqual(2, userRepository.GetAll().Count());
             Assert.AreEqual(true, userRepository.GetById(AddedUser1.Id).IsArchived);
         }
 
