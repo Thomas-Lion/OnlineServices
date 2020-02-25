@@ -18,7 +18,7 @@ namespace RegistrationServices.DataLayer.Entities
         public UserRole Role { get; set; }
         public string Company { get; set; }
         public string Email { get; set; }
-        public bool IsActivated { get; set; }
+        public bool IsArchived { get; set; }
         public List<UserSessionEF> UserSessions { get; set; }
     }
 }

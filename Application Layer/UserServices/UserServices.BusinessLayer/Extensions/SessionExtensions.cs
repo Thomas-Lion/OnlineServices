@@ -10,12 +10,17 @@ namespace RegistrationServices.BusinessLayer.Extensions
     {
         public static Session ToDomain(this SessionTO session)
         {
+            if (session == null)
+                throw new ArgumentNullException(nameof(session));
+
             return  new Session
             {
                 Id = session.Id,
                 Course = session.Course.ToDomain(),
                 Teacher = session.Teacher.ToDomain(),
-                Attendees = session.Attendees?.Select(x => x.ToDomain()).ToList()
+                Attendees = session.Attendees?.Select(x => x.ToDomain()).ToList(),
+                Dates = session.SessionDays?.Select(x=>x.ToDomain()).ToList()
+
             };
         }
 
@@ -26,8 +31,9 @@ namespace RegistrationServices.BusinessLayer.Extensions
                 Id = session.Id,
                 Course = session.Course.ToTransfertObject(),
                 //Local = session.Local
-                Teacher  = session.Teacher.ToTransfertObject(),
-                Attendees = session.Attendees?.Select(x=> x.ToTransfertObject()).ToList()
+                Teacher = session.Teacher.ToTransfertObject(),
+                Attendees = session.Attendees?.Select(x => x.ToTransfertObject()).ToList(),
+                SessionDays = session.Dates?.Select(x => x.ToTransfertObject()).ToList(),
             };
         }
     }

@@ -18,9 +18,9 @@ namespace RegistrationServices.BusinessLayerTests.UseCases.AttendeeTests
         [TestMethod]
         public void GetSessionsByDate_Successful()
         {
-            var user = new UserTO { Company = "CaBossDur", Email = "machin@bidule.ouaip", Id = 3, IsActivated = true, Name = "Marcel", Role = UserRole.Attendee, };
-            var user2 = new UserTO { Company = "CaBossDur2", Email = "truc@bidule.ouaip", Id = 2, IsActivated = true, Name = "Jean-Luc", Role = UserRole.Attendee, };
-            var user3 = new UserTO { Company = "CaBossDur3", Email = "poulette@bidule.ouaip", Id = 1, IsActivated = true, Name = "Clara", Role = UserRole.Attendee, };
+            var user = new UserTO { Company = "CaBossDur", Email = "machin@bidule.ouaip", Id = 3, IsArchived = false, Name = "Marcel", Role = UserRole.Attendee, };
+            var user2 = new UserTO { Company = "CaBossDur2", Email = "truc@bidule.ouaip", Id = 2, IsArchived = false, Name = "Jean-Luc", Role = UserRole.Attendee, };
+            var user3 = new UserTO { Company = "CaBossDur3", Email = "poulette@bidule.ouaip", Id = 1, IsArchived = false, Name = "Clara", Role = UserRole.Attendee, };
 
             var users = new List<UserTO>() { user, user2, user3 };
 
@@ -40,17 +40,18 @@ namespace RegistrationServices.BusinessLayerTests.UseCases.AttendeeTests
             var sut = new RSAttendeeRole(mockUnitOfWork.Object);
 
             //ACT
-            var result = sut.GetSessionsByDate(new DateTime(2020,02,20));
+            var result = sut.GetSessionsByDate(new DateTime(2020, 02, 20));
 
             //ASSERT
-            mockUnitOfWork.Verify(u => u.SessionRepository.GetSessionsByDate(new DateTime(2020,02,20)), Times.Once);
+            mockUnitOfWork.Verify(u => u.SessionRepository.GetSessionsByDate(new DateTime(2020, 02, 20)), Times.Once);
         }
+
         [TestMethod]
         public void GetSessionsByDate_InvalidDateProvided_ThrowException()
         {
-            var user = new UserTO { Company = "CaBossDur", Email = "machin@bidule.ouaip", Id = 3, IsActivated = true, Name = "Marcel", Role = UserRole.Attendee, };
-            var user2 = new UserTO { Company = "CaBossDur2", Email = "truc@bidule.ouaip", Id = 2, IsActivated = true, Name = "Jean-Luc", Role = UserRole.Attendee, };
-            var user3 = new UserTO { Company = "CaBossDur3", Email = "poulette@bidule.ouaip", Id = 1, IsActivated = true, Name = "Clara", Role = UserRole.Attendee, };
+            var user = new UserTO { Company = "CaBossDur", Email = "machin@bidule.ouaip", Id = 3, IsArchived = false, Name = "Marcel", Role = UserRole.Attendee, };
+            var user2 = new UserTO { Company = "CaBossDur2", Email = "truc@bidule.ouaip", Id = 2, IsArchived = false, Name = "Jean-Luc", Role = UserRole.Attendee, };
+            var user3 = new UserTO { Company = "CaBossDur3", Email = "poulette@bidule.ouaip", Id = 1, IsArchived = false, Name = "Clara", Role = UserRole.Attendee, };
 
             var users = new List<UserTO>() { user, user2, user3 };
 
@@ -71,14 +72,15 @@ namespace RegistrationServices.BusinessLayerTests.UseCases.AttendeeTests
 
             //ACT
             //ASSERT
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => sut.GetSessionsByDate(new DateTime(30,30,30)));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => sut.GetSessionsByDate(new DateTime(30, 30, 30)));
         }
+
         [TestMethod]
         public void GetSessionsByDate_NotExistingDateInDB_ThrowException()
         {
-            var user = new UserTO { Company = "CaBossDur", Email = "machin@bidule.ouaip", Id = 3, IsActivated = true, Name = "Marcel", Role = UserRole.Attendee, };
-            var user2 = new UserTO { Company = "CaBossDur2", Email = "truc@bidule.ouaip", Id = 2, IsActivated = true, Name = "Jean-Luc", Role = UserRole.Attendee, };
-            var user3 = new UserTO { Company = "CaBossDur3", Email = "poulette@bidule.ouaip", Id = 1, IsActivated = true, Name = "Clara", Role = UserRole.Attendee, };
+            var user = new UserTO { Company = "CaBossDur", Email = "machin@bidule.ouaip", Id = 3, IsArchived = false, Name = "Marcel", Role = UserRole.Attendee, };
+            var user2 = new UserTO { Company = "CaBossDur2", Email = "truc@bidule.ouaip", Id = 2, IsArchived = false, Name = "Jean-Luc", Role = UserRole.Attendee, };
+            var user3 = new UserTO { Company = "CaBossDur3", Email = "poulette@bidule.ouaip", Id = 1, IsArchived = false, Name = "Clara", Role = UserRole.Attendee, };
 
             var users = new List<UserTO>() { user, user2, user3 };
 
@@ -98,7 +100,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCases.AttendeeTests
 
             //ACT
             //ASSERT
-            Assert.ThrowsException<LoggedException>(() => sut.GetSessionsByDate(new DateTime(2021,03,02)));
+            Assert.ThrowsException<LoggedException>(() => sut.GetSessionsByDate(new DateTime(2021, 03, 02)));
         }
     }
 }

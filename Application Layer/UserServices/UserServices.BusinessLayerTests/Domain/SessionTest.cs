@@ -12,10 +12,10 @@ namespace RegistrationServices.BusinessLayerTests
         private Course cou2 = new Course { Id = 2, Name = "Course02" };
         private Course cou3 = new Course { Id = 3, Name = "Course03" };
 
-        private User teacher = new User { Id = 1, Name = "User_Teacher", IsActivated = true, Company = "Company 01", Role = UserRole.Teacher, Email = "teacher@gmail.com" };
+        private User teacher = new User { Id = 1, Name = "User_Teacher", IsArchived = false, Company = "Company 01", Role = UserRole.Teacher, Email = "teacher@gmail.com" };
 
-        private User attendee1 = new User { Id = 2, Name = "User_Attendee", IsActivated = false, Company = "Company 02", Role = UserRole.Attendee, Email = "student@gmail.com" };
-        private User attendee2 = new User { Id = 3, Name = "User_Attendee3", IsActivated = false, Company = "Company 02", Role = UserRole.Attendee, Email = "student2@gmail.com" };
+        private User attendee1 = new User { Id = 2, Name = "User_Attendee", IsArchived = true, Company = "Company 02", Role = UserRole.Attendee, Email = "student@gmail.com" };
+        private User attendee2 = new User { Id = 3, Name = "User_Attendee3", IsArchived = true, Company = "Company 02", Role = UserRole.Attendee, Email = "student2@gmail.com" };
 
         private List<User> attendees = new List<User>();
 
