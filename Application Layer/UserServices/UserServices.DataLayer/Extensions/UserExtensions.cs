@@ -54,6 +54,7 @@ namespace RegistrationServices.DataLayer.Extensions
                 AttachedEF.Name = DetachedEF.Name;
                 AttachedEF.Email = DetachedEF.Email;
                 AttachedEF.Company = DetachedEF.Company;
+                AttachedEF.IsActivated = DetachedEF.IsActivated;
             }
 
             return AttachedEF;

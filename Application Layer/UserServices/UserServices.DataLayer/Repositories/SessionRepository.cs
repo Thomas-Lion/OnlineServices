@@ -25,14 +25,10 @@ namespace RegistrationServices.DataLayer.Repositories
                 throw new ArgumentNullException(nameof(Entity));
 
             if (Entity.Id != 0)
-            {
                 return Entity;
-            }
 
             if (Entity.Course.IsArchived)
-            {
                 throw new ArgumentException("Course can not be archived");
-            }
 
             var sessionEF = Entity.ToEF();
             sessionEF.Course = registrationContext.Courses.FirstOrDefault(x => x.Id == Entity.Course.Id);
@@ -43,35 +39,59 @@ namespace RegistrationServices.DataLayer.Repositories
             //TODO 1) userserssion.sessionid= nouvelle sessionid
             //TODO 2) registrationContext.UserSessions.Add
 
-            AddUserSession(Entity, session);
+            UpdateUserSessions(Entity, session);
 
             return sessionEF.ToTransfertObject();
         }
 
-        private void AddUserSession(SessionTO Entity, SessionEF session)
+        private void UpdateUserSessions(SessionTO session, SessionEF entity)
         {
-            if ((Entity.Attendees != null))
+            if ((session.Attendees != null))
             {
-                foreach (var user in Entity.Attendees)
+                foreach (var user in session.Attendees)
                 {
+                    //if (!registrationContext.Users.Any(x => x.Id == user.Id))
+                    //{
+                    //    var userSession = new UserSessionEF()
+                    //    {
+                    //        SessionId = session.Id,
+                    //        Session = session,
+                    //        UserId = user.Id,
+                    //        User = registrationContext.Users.First(x => x.Id == user.Id)
+                    //    };
+                    //    registrationContext.UserSessions.Add(userSession);
+                    //}
+
                     var userSession = new UserSessionEF()
                     {
-                        SessionId = session.Id,
-                        Session = session,
+                        SessionId = entity.Id,
+                        Session = entity,
                         UserId = user.Id,
                         User = registrationContext.Users.First(x => x.Id == user.Id)
                     };
                     registrationContext.UserSessions.Add(userSession);
                 }
             }
-            if ((Entity.Teacher != null))
+            if ((session.Teacher != null))
             {
+                //if (registrationContext.Users.Any(x => x.Id == Entity.Teacher.Id))
+                //{
+                //    var teacherEF = new UserSessionEF()
+                //    {
+                //        SessionId = session.Id,
+                //        Session = session,
+                //        UserId = Entity.Teacher.Id,
+                //        User = registrationContext.Users.First(x => x.Id == Entity.Teacher.Id)
+                //    };
+
+                //    registrationContext.UserSessions.Add(teacherEF);
+                //}
                 var teacherEF = new UserSessionEF()
                 {
-                    SessionId = session.Id,
-                    Session = session,
-                    UserId = Entity.Teacher.Id,
-                    User = registrationContext.Users.First(x => x.Id == Entity.Teacher.Id)
+                    SessionId = entity.Id,
+                    Session = entity,
+                    UserId = session.Teacher.Id,
+                    User = registrationContext.Users.First(x => x.Id == session.Teacher.Id)
                 };
 
                 registrationContext.UserSessions.Add(teacherEF);
@@ -108,6 +128,7 @@ namespace RegistrationServices.DataLayer.Repositories
 
         public IEnumerable<UserTO> GetStudents(SessionTO session)
             => registrationContext.UserSessions
+                .AsNoTracking()
                 .Where(x => x.User.Role == UserRole.Attendee)
                 .Select(x => x.User.ToTransfertObject()).ToList();
 
@@ -133,9 +154,50 @@ namespace RegistrationServices.DataLayer.Repositories
             }
         }
 
-        public SessionTO Update(SessionTO Entity)
+        public SessionTO Update(SessionTO session)
         {
-            throw new NotImplementedException();
+            if (session == null)
+                throw new ArgumentNullException();
+
+            if (!registrationContext.Sessions.Any(x => x.Id == session.Id))
+                throw new ArgumentException("The session you are trying to update doens't exists");
+
+            var entity = registrationContext.Sessions.FirstOrDefault(x => x.Id == session.Id);
+
+            if (entity != default)
+            {
+                if (registrationContext.Courses.Any(x => x.Id == session.Course.Id))
+                    entity.Course = registrationContext.Courses.FirstOrDefault(x => x.Id == session.Course.Id);
+
+                foreach (var user in session.Attendees)
+                {
+                    if (!entity.UserSessions.Any(x => x.UserId == user.Id))
+                    {
+                        var userSession = new UserSessionEF()
+                        {
+                            Session = entity,
+                            SessionId = entity.Id,
+                            User = registrationContext.Users.FirstOrDefault(x => x.Id == user.Id),
+                            UserId = user.Id
+                        };
+                        registrationContext.UserSessions.Add(userSession);
+                    }
+                }
+
+                if (!entity.UserSessions.Any(x => x.User.Role == UserRole.Teacher))
+                {
+                    var userSession = new UserSessionEF()
+                    {
+                        Session = entity,
+                        SessionId = entity.Id,
+                        User = registrationContext.Users.FirstOrDefault(x => x.Id == session.Teacher.Id),
+                        UserId = session.Teacher.Id
+                    };
+                    entity.UserSessions.Add(userSession);
+                };
+            }
+
+            return registrationContext.Sessions.Update(entity).Entity.ToTransfertObject();
         }
 
         public IEnumerable<SessionTO> GetByUser(UserTO user)
