@@ -12,10 +12,10 @@ namespace EvaluationServices.BusinessLayer.UseCases.AssitantRole
 
     {
         private readonly IESUnitOfWork iESUnitOfWork;
-        private readonly IRSServiceRole iRSServiceRole;
+        private readonly IRSAssistantRole iRSServiceRole;
 
         //Constructor
-        public ESAssistantRole(IESUnitOfWork iESUnitOfWork, IRSServiceRole iRSServiceRole)
+        public ESAssistantRole(IESUnitOfWork iESUnitOfWork, IRSAssistantRole iRSServiceRole)
         {
             this.iESUnitOfWork = iESUnitOfWork ?? throw new ArgumentNullException(nameof(iESUnitOfWork));
             this.iRSServiceRole = iRSServiceRole ?? throw new ArgumentNullException(nameof(iRSServiceRole));

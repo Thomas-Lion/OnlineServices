@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OnlineServices.Common.Exceptions;
+using OnlineServices.Common.RegistrationServices.TransferObject;
 using RegistrationServices.BusinessLayer;
 
 
@@ -31,5 +32,6 @@ namespace RegistrationServices.BusinessLayerTests
 
             Assert.ThrowsException<IsNullOrWhiteSpaceException>( () => cou.IsValid()  );
         }
+
     }
 }

@@ -9,11 +9,11 @@ namespace OnlineServices.WebUx.Mvc6
 {
     public static class TestHelper
     {
-        public static IRSServiceRole MockIRSServiceRole()
+        public static IRSAssistantRole MockIRSServiceRole()
         {
             // REVIEW ILogger a;
 
-            var mockILogger = new Mock<IRSServiceRole>();
+            var mockILogger = new Mock<IRSAssistantRole>();
 
            // mockILogger.Setup(x => x.);
 
