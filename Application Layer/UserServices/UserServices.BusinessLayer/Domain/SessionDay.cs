@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace RegistrationServices.BusinessLayer.Domain
+namespace RegistrationServices.BusinessLayer
 {
     public class SessionDay : IEntity<int>
     {
