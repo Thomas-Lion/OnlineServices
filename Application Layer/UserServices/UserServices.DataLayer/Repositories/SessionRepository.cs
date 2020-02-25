@@ -120,7 +120,7 @@ namespace RegistrationServices.DataLayer.Repositories
         public IEnumerable<UserTO> GetStudents(SessionTO session)
             => registrationContext.UserSessions
                 .AsNoTracking()
-                .Where(x => (x.User.Role == UserRole.Attendee)&&(x.User.IsActivated))
+                .Where(x => (x.User.Role == UserRole.Attendee) && !(x.User.IsArchived))
                 .Select(x => x.User.ToTransfertObject()).ToList();
 
         public bool Remove(SessionTO entity)

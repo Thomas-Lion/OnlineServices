@@ -20,7 +20,6 @@ namespace RegistrationServices.DataLayerTests
                 Id = 1,
                 Name = "Jacky Fringant",
                 Email = "jacky@supermail.com",
-                IsActivated = true,
                 Role = UserRole.Attendee,
             };
 
@@ -29,7 +28,6 @@ namespace RegistrationServices.DataLayerTests
                 Id = 2,
                 Name = "Johnny Begood",
                 Email = "johnny@yolomail.com",
-                IsActivated = true,
                 Role = UserRole.Teacher
             };
 
@@ -66,7 +64,6 @@ namespace RegistrationServices.DataLayerTests
                 Id = 1,
                 Name = "Jacky Fringant",
                 Email = "jacky@supermail.com",
-                IsActivated = true,
                 Role = UserRole.Attendee,
             };
 
@@ -75,7 +72,6 @@ namespace RegistrationServices.DataLayerTests
                 Id = 2,
                 Name = "Johnny Begood",
                 Email = "johnny@yolomail.com",
-                IsActivated = true,
                 Role = UserRole.Teacher
             };
 
@@ -135,7 +131,6 @@ namespace RegistrationServices.DataLayerTests
                 Id = 1,
                 Name = "Jacky Fringant",
                 Email = "jacky@supermail.com",
-                IsActivated = true,
                 Role = UserRole.Attendee,
             };
 
@@ -144,7 +139,6 @@ namespace RegistrationServices.DataLayerTests
                 Id = 2,
                 Name = "Johnny Begood",
                 Email = "johnny@yolomail.com",
-                IsActivated = true,
                 Role = UserRole.Teacher
             };
 
@@ -181,7 +175,6 @@ namespace RegistrationServices.DataLayerTests
                 Id = 1,
                 Name = "Jacky Fringant",
                 Email = "jacky@supermail.com",
-                IsActivated = true,
                 Role = UserRole.Attendee,
             };
 
@@ -190,7 +183,6 @@ namespace RegistrationServices.DataLayerTests
                 Id = 2,
                 Name = "Johnny Begood",
                 Email = "johnny@yolomail.com",
-                IsActivated = true,
                 Role = UserRole.Teacher
             };
 
@@ -250,7 +242,6 @@ namespace RegistrationServices.DataLayerTests
                 Id = 1,
                 Name = "Jacky Fringant",
                 Email = "jacky@supermail.com",
-                IsActivated = true,
                 Role = UserRole.Attendee,
             };
 
@@ -259,7 +250,6 @@ namespace RegistrationServices.DataLayerTests
                 Id = 2,
                 Name = "Johnny Begood",
                 Email = "johnny@yolomail.com",
-                IsActivated = true,
                 Role = UserRole.Teacher
             };
 
@@ -296,7 +286,6 @@ namespace RegistrationServices.DataLayerTests
                 Id = 1,
                 Name = "Jacky Fringant",
                 Email = "jacky@supermail.com",
-                IsActivated = true,
                 Role = UserRole.Attendee,
             };
 
@@ -305,7 +294,6 @@ namespace RegistrationServices.DataLayerTests
                 Id = 2,
                 Name = "Johnny Begood",
                 Email = "johnny@yolomail.com",
-                IsActivated = true,
                 Role = UserRole.Teacher
             };
 
@@ -365,7 +353,6 @@ namespace RegistrationServices.DataLayerTests
                 Id = 1,
                 Name = "Jacky Fringant",
                 Email = "jacky@supermail.com",
-                IsActivated = true,
                 Role = UserRole.Attendee,
             };
 
@@ -374,7 +361,6 @@ namespace RegistrationServices.DataLayerTests
                 Id = 2,
                 Name = "Johnny Begood",
                 Email = "johnny@yolomail.com",
-                IsActivated = true,
                 Role = UserRole.Teacher
             };
 
@@ -411,7 +397,6 @@ namespace RegistrationServices.DataLayerTests
                 Id = 1,
                 Name = "Jacky Fringant",
                 Email = "jacky@supermail.com",
-                IsActivated = true,
                 Role = UserRole.Attendee,
             };
 
@@ -420,7 +405,6 @@ namespace RegistrationServices.DataLayerTests
                 Id = 2,
                 Name = "Johnny Begood",
                 Email = "johnny@yolomail.com",
-                IsActivated = true,
                 Role = UserRole.Teacher
             };
 

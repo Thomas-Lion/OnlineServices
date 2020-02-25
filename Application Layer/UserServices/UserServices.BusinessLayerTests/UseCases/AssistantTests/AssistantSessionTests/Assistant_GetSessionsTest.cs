@@ -8,6 +8,7 @@ using System.Linq;
 using OnlineServices.Common.RegistrationServices.Interfaces;
 using OnlineServices.Common.RegistrationServices.TransferObject;
 using RegistrationServices.BusinessLayer.UseCase.Assistant;
+using OnlineServices.Common.RegistrationServices.Enumerations;
 
 namespace RegistrationServices.BusinessLayerTests.UseCase.AssistantSessionTests
 {
@@ -20,15 +21,33 @@ namespace RegistrationServices.BusinessLayerTests.UseCase.AssistantSessionTests
         CourseTO course = new CourseTO { Id = 1, Name = "Course" };
         UserTO teacher = new UserTO { Id = 1, Name = "teacher" };
 
+
         public List<SessionTO> SessionList()
+        {
+            SessionDayTO sDayTO1 = new SessionDayTO { Id = 1, Date = DateTime.Now, PresenceType = SessionPresenceType.OnceADay };
+            SessionDayTO sDayTO2 = new SessionDayTO { Id = 2, Date = DateTime.Now, PresenceType = SessionPresenceType.AfternoonOnly };
+            SessionDayTO sDayTO3 = new SessionDayTO { Id = 3, Date = DateTime.Now, PresenceType = SessionPresenceType.OnceADay };
+            var ListSessionsDatTo = new List<SessionDayTO>();
+            ListSessionsDatTo.Add(sDayTO1);
+            ListSessionsDatTo.Add(sDayTO2);
+            ListSessionsDatTo.Add(sDayTO3);
+
+            return new List<SessionTO>
+            {
+                new SessionTO { Id=1,  Course = course,  Teacher = teacher, SessionDays = ListSessionsDatTo },
+                new SessionTO { Id=2, Course  = course,  Teacher = teacher, SessionDays = ListSessionsDatTo},
+                new SessionTO { Id=3, Course = course,  Teacher = teacher, SessionDays = ListSessionsDatTo}
+            };
+        }
+
+        public List<SessionTO> EmptySessionList()
         {
             return new List<SessionTO>
             {
-                new SessionTO { Id=1,  Course = course,  Teacher = teacher },
-                new SessionTO { Id=2, Course  = course,  Teacher = teacher},
-                new SessionTO { Id=3, Course = course,  Teacher = teacher}
+                null,
             };
         }
+
 
         [TestMethod]
         public void GetSessions_ReturnsAllSessionsFromDB()
@@ -110,7 +129,33 @@ namespace RegistrationServices.BusinessLayerTests.UseCase.AssistantSessionTests
             Assert.IsNull(SessionById);
         }
 
+        [TestMethod]
+        public void Throw_ArgumentNullException_When_SessionTO_IsNULL()
+        {
+            MockSessionRepository.Setup(x => x.GetAll()).Returns(EmptySessionList);
+            MockUofW.Setup(x => x.SessionRepository).Returns(MockSessionRepository.Object);
 
+            var Assistante = new RSAssistantRole(MockUofW.Object);
+
+            //ASSERT
+            Assert.ThrowsException<ArgumentNullException>(() => Assistante.GetSessions());
+        }
+
+        [TestMethod]
+        public void GetSessionsDay_ReturnsAllSessionDaysFromDB()
+        {
+            //ARRANGE
+            MockSessionRepository.Setup(x => x.GetAll()).Returns(SessionList);
+            MockUofW.Setup(x => x.SessionRepository).Returns(MockSessionRepository.Object);
+
+            var ass = new RSAssistantRole(MockUofW.Object);
+
+            //ACT
+            var sessions = ass.GetSessionsDay();
+
+            //ASSERT
+            Assert.AreEqual(SessionList().SelectMany(x => x.SessionDays).Count(), sessions.Count);
+        }
 
     }
 }

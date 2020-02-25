@@ -28,7 +28,6 @@ namespace RegistrationServices.DataLayer.Repositories
             {
                 return Entity;
             }
-            Entity.IsActivated = true;
             return registrationContext.Users.Add(Entity.ToEF()).Entity.ToTransfertObject();
         }
 
@@ -36,7 +35,7 @@ namespace RegistrationServices.DataLayer.Repositories
         => registrationContext.Users
             .AsNoTracking()
             .Include(x => x.UserSessions)
-            .Where(x => x.IsActivated != false)
+            .Where(x => x.IsArchived != true)
             .Select(x => x.ToTransfertObject())
             .ToList();
 
@@ -114,8 +113,8 @@ namespace RegistrationServices.DataLayer.Repositories
                 throw new KeyNotFoundException($"UserRepository. Remove(Id) no user to delete.");
             }
 
-            user.IsActivated = false;
-            return !registrationContext.Users.Update(user).Entity.IsActivated;
+            user.IsArchived = true;
+            return registrationContext.Users.Update(user).Entity.IsArchived;
         }
 
         public UserTO Update(UserTO Entity)
