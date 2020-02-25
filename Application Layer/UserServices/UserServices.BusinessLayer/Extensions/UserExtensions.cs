@@ -18,7 +18,7 @@ namespace RegistrationServices.BusinessLayer.Extensions
                     Name = userTo.Name,
                     Email = userTo.Email,
                     Company = userTo.Company,
-                    IsActivated = userTo.IsActivated,
+                    IsArchived = userTo.IsArchived,
                     Role = userTo.Role,
                 };
 
@@ -40,7 +40,7 @@ namespace RegistrationServices.BusinessLayer.Extensions
                 Name = user.Name,
                 Email = user.Email,
                 Company = user.Company,
-                IsActivated = user.IsActivated,
+                IsArchived = user.IsArchived,
 
                 Role = user.Role,
             };

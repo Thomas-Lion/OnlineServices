@@ -12,7 +12,7 @@ namespace OnlineServices.Common.RegistrationServices.TransferObject
         public string Name { get; set; } // Non Null
         public string Company { get; set; }
         public string Email { get; set; } // Non Null
-        public bool IsActivated { get; set; } // Non Null
+        public bool IsArchived { get; set; } // Non Null
         public UserRole Role { get; set; } // Non Null
 
         public bool Equals(int otherId)

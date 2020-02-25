@@ -130,9 +130,9 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                 {
                     //Id = 1,
                     Attendees = new List<UserTO>()
-                        {
-                            AddedAttendee
-                        },
+                    {
+                        AddedAttendee
+                    },
                     Course = AddedCourse,
                     Teacher = AddedTeacher,
                 };
