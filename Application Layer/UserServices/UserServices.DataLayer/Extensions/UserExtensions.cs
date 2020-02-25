@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OnlineServices.Common.Exceptions;
 using OnlineServices.Common.RegistrationServices.Interfaces;
 using OnlineServices.Common.RegistrationServices.TransferObject;
 using RegistrationServices.DataLayer.Entities;
@@ -46,7 +47,7 @@ namespace RegistrationServices.DataLayer.Extensions
                 throw new NullReferenceException();
 
             if (AttachedEF.Id != DetachedEF.Id)
-                throw new Exception("Cannot update userEF entity because it' not the same.");
+                throw new LoggedException("Cannot update userEF entity because it' not the same.");
 
             if ((AttachedEF != default) && (DetachedEF != default))
             {
