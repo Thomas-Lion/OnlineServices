@@ -79,14 +79,17 @@ namespace RegistrationServices.DataLayer.Repositories
                 registrationContext.UserSessions.Add(userSession);
             }
 
-            var teacherSession = new UserSessionEF()
+            if (session.Teacher != null)
             {
-                Session = entity,
-                SessionId = entity.Id,
-                User = registrationContext.Users.FirstOrDefault(x => x.Id == session.Teacher.Id),
-                UserId = session.Teacher.Id
-            };
-            entity.UserSessions.Add(teacherSession);
+                var teacherSession = new UserSessionEF()
+                {
+                    Session = entity,
+                    SessionId = entity.Id,
+                    User = registrationContext.Users.FirstOrDefault(x => x.Id == session.Teacher.Id),
+                    UserId = session.Teacher.Id
+                };
+                entity.UserSessions.Add(teacherSession);
+            }
         }
 
         public IEnumerable<SessionTO> GetAll()
@@ -120,7 +123,7 @@ namespace RegistrationServices.DataLayer.Repositories
         public IEnumerable<UserTO> GetStudents(SessionTO session)
             => registrationContext.UserSessions
                 .AsNoTracking()
-                .Where(x => (x.User.Role == UserRole.Attendee) && !(x.User.IsArchived))
+                .Where(x => (x.User.Role == UserRole.Attendee) && (!x.User.IsArchived))
                 .Select(x => x.User.ToTransfertObject()).ToList();
 
         public bool Remove(SessionTO entity)
