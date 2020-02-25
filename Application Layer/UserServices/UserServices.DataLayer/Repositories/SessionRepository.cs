@@ -41,37 +41,52 @@ namespace RegistrationServices.DataLayer.Repositories
             return entity.ToTransfertObject();
         }
 
+        public SessionTO Update(SessionTO session)
+        {
+            if (session == null)
+                throw new ArgumentNullException();
+
+            if (!registrationContext.Sessions.Any(x => x.Id == session.Id))
+                throw new ArgumentException("The session you are trying to update doesn't exists");
+
+            var entity = registrationContext.Sessions.FirstOrDefault(x => x.Id == session.Id);
+
+            if (entity != default)
+            {
+                if (registrationContext.Courses.Any(x => x.Id == session.Course.Id))
+                    entity.Course = registrationContext.Courses.FirstOrDefault(x => x.Id == session.Course.Id);
+
+                UpdateUserSessions(session, entity);
+            }
+
+            return registrationContext.Sessions.Update(entity).Entity.ToTransfertObject();
+        }
+
         private void UpdateUserSessions(SessionTO session, SessionEF entity)
         {
-            if ((session.Attendees.Any()))
-            {
-                foreach (var user in session.Attendees)
-                {
-                    if (!entity.UserSessions.Any(x => x.UserId == user.Id))
-                    {
-                        var userSession = new UserSessionEF()
-                        {
-                            Session = entity,
-                            SessionId = entity.Id,
-                            User = registrationContext.Users.FirstOrDefault(x => x.Id == user.Id),
-                            UserId = user.Id
-                        };
-                        registrationContext.UserSessions.Add(userSession);
-                    }
-                }
+            entity.UserSessions.Clear();
+            registrationContext.RemoveRange(registrationContext.UserSessions.Where(x => x.SessionId == session.Id));
 
-                if (!entity.UserSessions.Any(x => x.User.Role == UserRole.Teacher))
+            foreach (var user in session.Attendees)
+            {
+                var userSession = new UserSessionEF()
                 {
-                    var userSession = new UserSessionEF()
-                    {
-                        Session = entity,
-                        SessionId = entity.Id,
-                        User = registrationContext.Users.FirstOrDefault(x => x.Id == session.Teacher.Id),
-                        UserId = session.Teacher.Id
-                    };
-                    entity.UserSessions.Add(userSession);
+                    Session = entity,
+                    SessionId = entity.Id,
+                    User = registrationContext.Users.FirstOrDefault(x => x.Id == user.Id),
+                    UserId = user.Id
                 };
+                registrationContext.UserSessions.Add(userSession);
             }
+
+            var teacherSession = new UserSessionEF()
+            {
+                Session = entity,
+                SessionId = entity.Id,
+                User = registrationContext.Users.FirstOrDefault(x => x.Id == session.Teacher.Id),
+                UserId = session.Teacher.Id
+            };
+            entity.UserSessions.Add(teacherSession);
         }
 
         public IEnumerable<SessionTO> GetAll()
@@ -105,7 +120,7 @@ namespace RegistrationServices.DataLayer.Repositories
         public IEnumerable<UserTO> GetStudents(SessionTO session)
             => registrationContext.UserSessions
                 .AsNoTracking()
-                .Where(x => x.User.Role == UserRole.Attendee)
+                .Where(x => (x.User.Role == UserRole.Attendee)&&(x.User.IsActivated))
                 .Select(x => x.User.ToTransfertObject()).ToList();
 
         public bool Remove(SessionTO entity)
@@ -128,27 +143,6 @@ namespace RegistrationServices.DataLayer.Repositories
             {
                 return false;
             }
-        }
-
-        public SessionTO Update(SessionTO session)
-        {
-            if (session == null)
-                throw new ArgumentNullException();
-
-            if (!registrationContext.Sessions.Any(x => x.Id == session.Id))
-                throw new ArgumentException("The session you are trying to update doesn't exists");
-
-            var entity = registrationContext.Sessions.FirstOrDefault(x => x.Id == session.Id);
-
-            if (entity != default)
-            {
-                if (registrationContext.Courses.Any(x => x.Id == session.Course.Id))
-                    entity.Course = registrationContext.Courses.FirstOrDefault(x => x.Id == session.Course.Id);
-
-                UpdateUserSessions(session, entity);
-            }
-
-            return registrationContext.Sessions.Update(entity).Entity.ToTransfertObject();
         }
 
         public IEnumerable<SessionTO> GetByUser(UserTO user)
