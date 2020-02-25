@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyVersion>2020.0211.0531.860</AssemblyVersion>
-    <FileVersion>2020.0211.0531.860</FileVersion>
+    <AssemblyVersion>2002.25.1.1007</AssemblyVersion>
+    <FileVersion>2002.25.1.1007</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,8 +11,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
     <PackageReference Include="Moq" Version="4.13.1" />
   </ItemGroup>
   
