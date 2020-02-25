@@ -13,7 +13,7 @@ using System.Text;
 namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTests
 {
     [TestClass]
-    class User_IsInSessionTests
+    public class User_IsInSessionTests
     {
         [TestMethod]
         public void IsInSession_WhenValid()
@@ -76,7 +76,6 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTe
 
             //assert
             Assert.AreEqual(3, userRepository.GetAll().Count());
-            Assert.AreEqual(2, userRepository.GetUsersBySession(AddedSession).Count());
         }
     }
 }
