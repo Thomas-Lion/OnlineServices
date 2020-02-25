@@ -95,12 +95,12 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTe
 
             RSCxt.SaveChanges();
             //act
-            AddedUser1.IsActivated = true;
+            AddedUser1.IsArchived = true;
             userRepository.Update(AddedUser1);
             RSCxt.SaveChanges();
             //assert
             Assert.AreEqual(3, userRepository.GetAll().Count());
-            Assert.AreEqual(true, userRepository.GetById(AddedUser1.Id).IsActivated);
+            Assert.AreEqual(true, userRepository.GetById(AddedUser1.Id).IsArchived);
         }
 
         [TestMethod]

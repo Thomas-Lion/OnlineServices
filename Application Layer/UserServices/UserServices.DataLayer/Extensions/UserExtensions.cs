@@ -20,7 +20,7 @@ namespace RegistrationServices.DataLayer.Extensions
                 Company = user.Company,
                 Email = user.Email,
                 Role = user.Role,
-                IsActivated = user.IsActivated,
+                IsArchived = user.IsArchived,
             };
         }
 
@@ -33,7 +33,7 @@ namespace RegistrationServices.DataLayer.Extensions
                 Company = user.Company,
                 Email = user.Email,
                 Role = user.Role,
-                IsActivated = user.IsActivated,
+                IsArchived = user.IsArchived,
                 //UserSessions = new List<UserSessionEF>()
             };
         }
@@ -55,7 +55,7 @@ namespace RegistrationServices.DataLayer.Extensions
                 AttachedEF.Name = DetachedEF.Name;
                 AttachedEF.Email = DetachedEF.Email;
                 AttachedEF.Company = DetachedEF.Company;
-                AttachedEF.IsActivated = DetachedEF.IsActivated;
+                AttachedEF.IsArchived = DetachedEF.IsArchived;
             }
 
             return AttachedEF;

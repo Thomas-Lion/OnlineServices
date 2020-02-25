@@ -107,7 +107,6 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                     Name = "Christian",
                     Email = "gyssels@fartmail.com",
                     Role = UserRole.Teacher,
-                    IsActivated = true
                 };
 
                 var Michou = new UserTO()
@@ -116,7 +115,6 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                     Name = "Michou Miraisin",
                     Email = "michou@superbg.caca",
                     Role = UserRole.Attendee,
-                    IsActivated = true
                 };
 
                 var Isabelle = new UserTO()
@@ -124,7 +122,6 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                     Name = "Isabelle Balkany",
                     Email = "isa@rendlargent.gouv",
                     Role = UserRole.Attendee,
-                    IsActivated = true
                 };
 
                 var AddedTeacher = userRepository.Add(Teacher);

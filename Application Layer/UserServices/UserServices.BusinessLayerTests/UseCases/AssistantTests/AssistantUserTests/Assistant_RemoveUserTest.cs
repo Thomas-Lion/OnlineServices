@@ -14,8 +14,8 @@ namespace RegistrationServices.BusinessLayerTests.UseCase.AssistantUserTests
     [TestClass]
     public class Assistant_RemoveUserTest
     {
-        Mock<IRSUnitOfWork> MockUofW = new Mock<IRSUnitOfWork>();
-        Mock<IRSUserRepository> MockUserRepository = new Mock<IRSUserRepository>();
+        private Mock<IRSUnitOfWork> MockUofW = new Mock<IRSUnitOfWork>();
+        private Mock<IRSUserRepository> MockUserRepository = new Mock<IRSUserRepository>();
 
         [TestMethod]
         public void RemoveUser_ThrowException_WhenUserIsNull()
@@ -46,7 +46,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase.AssistantUserTests
             MockUofW.Setup(x => x.UserRepository).Returns(MockUserRepository.Object);
 
             var assistant = new RSAssistantRole(MockUofW.Object);
-            var userToRemove = new UserTO { Id = 1, Name = "User Name", IsActivated = true };
+            var userToRemove = new UserTO { Id = 1, Name = "User Name", IsArchived = false };
 
             //ASSERT
             Assert.IsTrue(assistant.RemoveUser(userToRemove));
@@ -56,7 +56,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase.AssistantUserTests
         public void RemoveUser_UserRepositoryIsCalledOnce_WhenAValidUserIsProvidedAndRemovedFromDB()
         {
             //ARRANGE
-            MockUserRepository.Setup( x => x.Remove(It.IsAny<UserTO>()));
+            MockUserRepository.Setup(x => x.Remove(It.IsAny<UserTO>()));
             MockUofW.Setup(x => x.UserRepository).Returns(MockUserRepository.Object);
 
             var ass = new RSAssistantRole(MockUofW.Object);
@@ -64,9 +64,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase.AssistantUserTests
 
             //ACT
             ass.RemoveUser(userToRemoveOnce);
-            MockUserRepository.Verify( x => x.Remove(It.IsAny<UserTO>()), Times.Once );
-
+            MockUserRepository.Verify(x => x.Remove(It.IsAny<UserTO>()), Times.Once);
         }
-
     }
 }

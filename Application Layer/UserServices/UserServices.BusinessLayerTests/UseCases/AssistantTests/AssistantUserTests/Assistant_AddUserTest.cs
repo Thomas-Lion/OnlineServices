@@ -15,18 +15,18 @@ namespace RegistrationServices.BusinessLayerTests.UseCase.AssistantUserTests
     [TestClass]
     public class Assistant_AddUserTest
     {
-        Mock<IRSUnitOfWork> MockUofW = new Mock<IRSUnitOfWork>();
-        Mock<IRSUserRepository> MockUserRepository = new Mock<IRSUserRepository>();
+        private Mock<IRSUnitOfWork> MockUofW = new Mock<IRSUnitOfWork>();
+        private Mock<IRSUserRepository> MockUserRepository = new Mock<IRSUserRepository>();
 
         [TestMethod]
         public void AddUser_ThrowException_WhenUserIDisDiferentThanZero()
         {
             //ARRANGE
-            var assistant = new RSAssistantRole( new Mock<IRSUnitOfWork>().Object   );
-            var userToAdd = new UserTO { Id = 1, Name = "User", IsActivated = true, Company = "Company1", Role = UserRole.Assistant, Email = "user@gmail.com" };
+            var assistant = new RSAssistantRole(new Mock<IRSUnitOfWork>().Object);
+            var userToAdd = new UserTO { Id = 1, Name = "User", IsArchived = false, Company = "Company1", Role = UserRole.Assistant, Email = "user@gmail.com" };
 
             //ASSERT
-            Assert.ThrowsException<Exception>(  () => assistant.AddUser(userToAdd)  );
+            Assert.ThrowsException<Exception>(() => assistant.AddUser(userToAdd));
         }
 
         [TestMethod]
@@ -34,7 +34,7 @@ namespace RegistrationServices.BusinessLayerTests.UseCase.AssistantUserTests
         {
             //ARRANGE
             var userNameWhiteSpace = new UserTO { Id = 0, Name = "" };
-            var userNameNull = new UserTO { Id = 0, Name = null};
+            var userNameNull = new UserTO { Id = 0, Name = null };
 
             var mockUofW = new Mock<IRSUnitOfWork>();
             var assistant = new RSAssistantRole(mockUofW.Object);
@@ -51,14 +51,14 @@ namespace RegistrationServices.BusinessLayerTests.UseCase.AssistantUserTests
             var assistant = new RSAssistantRole(MockUofW.Object);
 
             //ASSERT
-            Assert.ThrowsException<LoggedException>( () => assistant.AddUser(null)  );
+            Assert.ThrowsException<LoggedException>(() => assistant.AddUser(null));
         }
 
         [TestMethod]
         public void AddUser_NewUser_Test()
         {
             //ARRANGE
-            var newUser = new UserTO { Id = 0, Name = "Enrique", IsActivated = true, Company = "Company 01", Role = UserRole.Assistant, Email = "user@gmail.com"};
+            var newUser = new UserTO { Id = 0, Name = "Enrique", IsArchived = false, Company = "Company 01", Role = UserRole.Assistant, Email = "user@gmail.com" };
 
             MockUserRepository.Setup(x => x.Add(It.IsAny<UserTO>())); //.Returns(newUser);
             var mockUofW = new Mock<IRSUnitOfWork>();
@@ -74,15 +74,15 @@ namespace RegistrationServices.BusinessLayerTests.UseCase.AssistantUserTests
         public void AddUser_UserRepositoryIsCalledOnce_WhenAValidUserIsProvidedAndAddInDB()
         {
             //ARRANGE
-            MockUserRepository.Setup( x => x.Add(It.IsAny<UserTO>()) );
-            MockUofW.Setup( x => x.UserRepository).Returns(MockUserRepository.Object);
+            MockUserRepository.Setup(x => x.Add(It.IsAny<UserTO>()));
+            MockUofW.Setup(x => x.UserRepository).Returns(MockUserRepository.Object);
 
             var ass = new RSAssistantRole(MockUofW.Object);
             var newUser = new UserTO { Id = 0, Name = "New User" };
 
             //ACT
             ass.AddUser(newUser);
-            MockUserRepository.Verify( x => x.Add(It.IsAny<UserTO>()), Times.Once );
+            MockUserRepository.Verify(x => x.Add(It.IsAny<UserTO>()), Times.Once);
         }
     }
 }

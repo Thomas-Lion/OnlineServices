@@ -32,7 +32,6 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTe
                     Role = UserRole.Assistant,
                     Email = "MaxFuel@Power.com",
                     Company = "Business Formation",
-                    IsActivated = true,
                 };
 
                 var userRepository = new UserRepository(RSCxt);
@@ -44,7 +43,7 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTe
                 //var userToAssert = userRepository.GetById(1);
             }
         }
-      
+
         [TestMethod()]
         public void UserRepositoryNotInsertInDB_WhenInvalid()
         {
@@ -82,4 +81,3 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.UserRepositoryTe
         }
     }
 }
-
