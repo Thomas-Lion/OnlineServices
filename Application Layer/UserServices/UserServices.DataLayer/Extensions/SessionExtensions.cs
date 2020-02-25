@@ -15,7 +15,7 @@ namespace RegistrationServices.DataLayer.Extensions
             {
                 Id = session.Id,
                 Course = session.Course?.ToTransfertObject(),
-                //SessionDays = session.Dates.Select(x => x.ToTransfertObject()).ToList(),                
+                //SessionDays = session.Dates.Select(x => x.ToTransfertObject()).ToList(),
             };
 
             if (session.UserSessions.Any(x => x.User.Role == UserRole.Teacher))
@@ -25,7 +25,7 @@ namespace RegistrationServices.DataLayer.Extensions
 
             if (session.UserSessions.Any(x => x.User.Role == UserRole.Attendee))
             {
-               sessionTO.Attendees = session.UserSessions.Where(x => x.User.Role == UserRole.Attendee).Select(x => x.User.ToTransfertObject()).ToList();
+                sessionTO.Attendees = session.UserSessions.Where(x => x.User.Role == UserRole.Attendee).Select(x => x.User.ToTransfertObject()).ToList();
             }
             return sessionTO;
         }
@@ -51,34 +51,28 @@ namespace RegistrationServices.DataLayer.Extensions
 
             result.UserSessions = new List<UserSessionEF>();
 
-            //foreach (var user in session.Attendees)
-            //{
-            //    var userSession = new UserSessionEF()
-            //    {
-            //        SessionId = session.Id,
-            //        Session = result,
-            //        UserId = user.Id,
-            //        User = user.ToEF()
-            //    };
-            //    result.UserSessions.Add(userSession);
-            //}
-
-            //var teacherEF = new UserSessionEF()
-            //{
-            //    SessionId = session.Id,
-            //    Session = result,
-            //    UserId = session.Teacher.Id,
-            //    User = session.Teacher.ToEF()
-            //};
-
-            //result.UserSessions.Add(teacherEF);
-
-            //foreach (UserSessionEF item in result.UserSessions)
-            //{
-            //    item.User.UserSessions.Add(item);
-            //}
-
             return result;
+        }
+
+        public static SessionEF UpdateFromDetached(this SessionEF attachedEF, SessionEF detachedEF)
+        {
+            if (attachedEF is null)
+                throw new ArgumentNullException();
+
+            if (detachedEF is null)
+                throw new NullReferenceException();
+
+            if (attachedEF.Id != detachedEF.Id)
+                throw new Exception("Cannot update userEF entity because it' not the same.");
+
+            if ((attachedEF != default) && (detachedEF != default))
+            {
+                attachedEF.Course = detachedEF.Course;
+                attachedEF.Dates = detachedEF.Dates;
+                attachedEF.UserSessions = detachedEF.UserSessions;
+            }
+
+            return attachedEF;
         }
     }
 }

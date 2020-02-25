@@ -16,7 +16,7 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
     public class Session_UpdateTests
     {
         [TestMethod]
-        public void Should_Be_Renamed_As_()
+        public void Should_Be_Contain_2Students()
         {
             var options = new DbContextOptionsBuilder<RegistrationContext>()
             .UseInMemoryDatabase(databaseName: MethodBase.GetCurrentMethod().Name)
@@ -61,13 +61,7 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                     Name = "SQL"
                 };
 
-                var MVCCourse = new CourseTO()
-                {
-                    Name = "MVC"
-                };
-
                 var AddedCourse = courseRepository.Add(SQLCourse);
-                var AddedCourse2 = courseRepository.Add(MVCCourse);
                 context.SaveChanges();
 
                 var SQLSession = new SessionTO()
@@ -81,22 +75,16 @@ namespace RegistrationServices.DataLayerTests.RepositoriesTests.SessionRepositor
                     Teacher = AddedTeacher,
                 };
 
-                var MVCSession = new SessionTO()
-                {
-                    Attendees = new List<UserTO>()
-                    {
-                        AddedAttendee2
-                    },
-
-                    Course = AddedCourse,
-                    Teacher = AddedTeacher,
-                };
-
                 var AddedSession = sessionRepository.Add(SQLSession);
-                var AddedSession2 = sessionRepository.Add(MVCSession);
                 context.SaveChanges();
 
-                Assert.AreEqual(1, sessionRepository.GetByUser(AddedAttendee2).Count());
+                Assert.AreEqual(1, sessionRepository.GetStudents(AddedSession).Count());
+
+                AddedSession.Attendees.Add(AddedAttendee2);
+                sessionRepository.Update(AddedSession);
+                context.SaveChanges();
+
+                Assert.AreEqual(2, sessionRepository.GetStudents(AddedSession).Count());
             }
         }
     }
