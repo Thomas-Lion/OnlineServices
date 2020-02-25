@@ -82,5 +82,10 @@ namespace RegistrationServices.BusinessLayer.UseCase.Assistant
         {
             return iRSUnitOfWork.SessionRepository.GetById(id);
         }
+
+        public List<SessionDayTO> GetSessionsDay()
+        {
+            return GetSessions().SelectMany(x=>x.SessionDays).ToList();
+        }
     }
 }

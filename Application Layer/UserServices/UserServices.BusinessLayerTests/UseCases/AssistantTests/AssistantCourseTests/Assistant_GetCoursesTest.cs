@@ -26,6 +26,27 @@ namespace RegistrationServices.BusinessLayerTests.UseCase.AssistantTests
             };
         }
 
+        public static List<CourseTO> EmptyCourseList()
+        {
+            return new List<CourseTO>
+            {
+                null,
+            };
+        }
+
+
+        [TestMethod]
+        public void Throw_ArgumentNullException_When_CoursesTO_IsNULL()
+        {
+            MockCourseRepository.Setup(x => x.GetAll()).Returns(EmptyCourseList);
+            MockUofW.Setup(x => x.CourseRepository).Returns(MockCourseRepository.Object);
+
+            var Assistante = new RSAssistantRole(MockUofW.Object);
+
+            //ASSERT
+            Assert.ThrowsException<ArgumentNullException>(() => Assistante.GetCourses());
+        }
+
         [TestMethod]
         public void GetCourses_ReturnsAllCoursesFromDB()
         {
@@ -104,8 +125,5 @@ namespace RegistrationServices.BusinessLayerTests.UseCase.AssistantTests
             //ASSERT
             Assert.IsNull(courById);
         }
-
-
-        
     }
 }
